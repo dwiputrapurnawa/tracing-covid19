@@ -1,0 +1,12 @@
+{
+  "name": "tracing-covid19",
+  "displayName": "tracing-covid19",
+  "expo": {
+    "name": "tracing-covid19",
+    "slug": "tracing-covid19",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
