@@ -1,24 +1,33 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 platform :ios, '10.0'
 
 target 'tracingcovid19' do
-  use_unimodules!
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  # Uncomment the code below to enable Flipper.
+  target 'tracingcovid19Tests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
   #
-  # You should not install Flipper in CI environments when creating release
-  # builds, this will lead to significantly slower build times.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work.
-  #
-  #  use_flipper!
-  #  post_install do |installer|
-  #    flipper_post_install(installer)
-  #  end
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  use_flipper!
+  post_install do |installer|
+    flipper_post_install(installer)
+  end
+end
+
+target 'tracingcovid19-tvOS' do
+  # Pods for tracingcovid19-tvOS
+
+  target 'tracingcovid19-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 end

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +6,9 @@ import Tab from './src/ui/student/Tab';
 import TabAdmin from './src/ui/admin/Tab';
 import Login from './src/ui/student/login/Login';
 import LoginAdmin from './src/ui/admin/login/Login';
+import { ThemeProvider } from 'react-native-elements';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
 
 const Stack = createStackNavigator();
 
@@ -17,22 +19,25 @@ function Startup({ navigation }) {
         <Button title="Mahasiswa" onPress={() => navigation.navigate('Tab_Student')} />
       </View>
       <Button title="Admin" onPress={() => navigation.navigate('Tab_Admin')} />
-      <StatusBar style="auto" />
     </View>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Startup" component={Startup} options={{headerShown: false}} />
-        <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
-        <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApplicationProvider {...eva} theme={eva.light} > 
+      <ThemeProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Startup" component={Startup} options={{headerShown: false}} />
+            <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
+            <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </ApplicationProvider>   
   );
 }
 
