@@ -21,7 +21,7 @@ const Login = () => {
         })
     }
 
-    function Signin() {
+    const Signin = () => {
         firestore()
             .collection('student')
             .where('nim', '==', nim)
