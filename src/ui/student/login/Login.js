@@ -7,7 +7,6 @@ const Login = () => {
 
     const [nim, setNim] = useState();
     const [password, setPassword] = useState();
-    const [token, setToken] = useState();
 
     const sendTokenRequest = () => {
         return fetch('http://localhost:3000/api-student', {
@@ -22,38 +21,29 @@ const Login = () => {
         })
     }
 
-    const getTokenFromApi = () => {
-        return fetch(`http://localhost:3000/token/${nim}.json`)
-        .then((response) => response.json())
-        .then((json) => {
-            setToken(json.token)
-        })
-        .catch((error) => {
-            console.error(error)
-        })
-    }
-
     function Signin() {
         firestore()
             .collection('student')
             .where('nim', '==', nim)
             .where('password', '==', password)
             .get()
-            .then(querySnapshot => {
+            .then((querySnapshot) => {
+                console.log('User is Valid!');
+
                 sendTokenRequest();
-                getTokenFromApi();
 
-                auth()
-                    .signInWithCustomToken(token)
-                    .then(() => {
-                        console.log('Sign Successfull')
-                    })
-                    .catch((error) => {
-                        var errorCode = error.code
-                        var errorMessage = error.message
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log(documentSnapshot.data()['token']);
 
-                        console.log(errorCode,errorMessage);
-                    })
+                    auth()
+                        .signInWithCustomToken(documentSnapshot.data()['token'])
+                        .then(() => {
+                            console.log('User Signed in!');
+                        })
+                        .catch((error) => {
+                            console.log(error.code,error.message);
+                        })
+                })
             })
         
     }
