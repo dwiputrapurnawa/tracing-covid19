@@ -6,6 +6,7 @@ import Tab from './src/ui/student/Tab';
 import TabAdmin from './src/ui/admin/Tab';
 import Login from './src/ui/student/login/Login';
 import LoginAdmin from './src/ui/admin/login/Login';
+import ProfileStudent from './src/ui/student/profile/Profile';
 import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout } from '@ui-kitten/components';
@@ -54,6 +55,7 @@ export default function App() {
             <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
+            <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
