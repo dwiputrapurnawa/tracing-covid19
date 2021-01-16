@@ -9,7 +9,6 @@ import LoginAdmin from './src/ui/admin/login/Login';
 import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout } from '@ui-kitten/components';
-import { Button } from 'react-native-elements';
 
 const Stack = createStackNavigator();
 
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
   student_text: {
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
   },
   header_text: {
     fontWeight: 'bold',
