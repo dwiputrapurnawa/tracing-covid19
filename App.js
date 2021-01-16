@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Tab from './src/ui/student/Tab';
@@ -17,17 +17,29 @@ function Startup({ navigation }) {
   return (
     <Layout style={styles.container}>
 
-      <Text style={styles.header_text}>Choose Your Role</Text>
+        <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+          >
+        
+        <Image style={styles.logo} source={{
+          uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'
+        }} />
+        <View>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Student')}>
+            <Image style={styles.image_student} source={require('./src/img/student.png')} />
+            <Text style={styles.student_text}>Student</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Student')}>
-        <Image style={styles.image_student} source={require('./src/img/student.png')} />
-        <Text style={styles.student_text}>Student</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Admin')}>
+            <Image style={styles.image_admin} source={require('./src/img/admin.png')} />
+            <Text style={styles.student_text}>Admin</Text>
+          </TouchableOpacity>
+        </View> 
+        </ImageBackground>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Admin')}>
-        <Image style={styles.image_admin} source={require('./src/img/admin.png')} />
-        <Text style={styles.student_text}>Admin</Text>
-      </TouchableOpacity>
+        
+
+        
     </Layout>
   );
 }
@@ -58,6 +70,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image_background: {
+    width: 420,
+    height: 800,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+  ,
   button: {
     borderRightWidth: 2,
     borderBottomWidth: 2,
@@ -90,5 +109,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginBottom: 50
+  },
+  logo: {
+    width: 300,
+    height: 100,
+    bottom: 50,
+    right: 80,
   }
 });
