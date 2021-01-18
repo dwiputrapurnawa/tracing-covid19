@@ -3,10 +3,13 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity, } from 'react-
 import { Avatar, Divider } from '@ui-kitten/components';
 import { Badge } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Home = ({ navigation }) => {
 
     const [myBooking, setMyBooking] = useState([]);
+
+    console.log(myBooking)
 
     const uid = '1801020002'
 
@@ -30,6 +33,7 @@ const Home = ({ navigation }) => {
     }
 
     return (
+        <ScrollView>
         <View style={styles.container}>
             <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}} 
                 style={styles.header_background}
@@ -81,21 +85,52 @@ const Home = ({ navigation }) => {
                 </TouchableOpacity> 
             </View>
 
-        
+            <View style={{alignItems: 'center', flexDirection: 'row', left: 20}}>
+
+                <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}} 
+                style={{
+                    borderWidth: 2, width: 100, height: 150 , bottom: 320, marginLeft: 20, borderColor: '#D2D2D2', borderRadius: 10
+                }}
+                />
+
+                
+                <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}} 
+               style={{
+                borderWidth: 2, width: 200, height: 150 , bottom: 320, marginLeft: 20, borderColor: '#D2D2D2', borderRadius: 10
+                }}
+                />
+
+            </View>
+            
+            <View  style={{bottom: 470, marginLeft: 45, marginTop: 20}}>
+                <Text style={{ fontWeight: 'bold', fontSize: 20,}}>Total</Text>
+                <Divider style={{borderWidth: 1, borderColor: '#D2D2D2'}} />
+                <Text style={{marginLeft: 8, top: 20, fontWeight: 'bold', fontSize: 30}}>02</Text>
+            </View>
+            
+           
+
             
             <View style={{bottom: 330, marginLeft: 10, width: 380}}>
                 <Text style={{fontWeight: 'bold', marginBottom: 5}}>All Bookings</Text>
                 <Divider style={{borderWidth: 1, borderColor: '#D2D2D2'}} />
             </View>
-               
-           
+            
+            
 
             <View style={styles.booking_container}>
-                
+               <Button title="Get Date" onPress={getDate} />
+
+               {
+                   myBooking.map((item,key) => (
+                       <Text key={key}>Date: {item.date}</Text>
+                   ))
+               }
                 
             </View>
             
         </View>
+        </ScrollView>
     );
 }
 
@@ -103,7 +138,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        flexWrap: 'wrap'
     },
     header_background: {
         width: 410,
@@ -165,7 +201,7 @@ const styles = StyleSheet.create({
         bottom: 320,
         width:380,
         alignSelf: 'center',
-        borderRadius: 10
+        borderRadius: 10,
     }
 
 })

@@ -15,9 +15,12 @@ const Booking = () => {
 
     var user_uid = auth().currentUser.uid;
 
-    const onChange = (selectedDate) => {
+    console.log(date.toDateString());
+    console.log(date.toTimeString());
+
+    const onChange = (event,selectedDate) => {
         const currentDate = selectedDate || date;
-        setShow(Platform.OS == 'Windows');
+        setShow(Platform.OS == 'Android');
         setDate(currentDate);
         
     }
@@ -39,7 +42,7 @@ const Booking = () => {
     const checkKouta = () => {
         firestore()
             .collection('booking')
-            .where('date','==',new Date(date.getFullYear(),date.getMonth(),date.getDate()))
+            .where('date','==',date.toDateString())
             .onSnapshot(querySnapshot => {
                 setKouta(querySnapshot.size)
             })
@@ -52,8 +55,8 @@ const Booking = () => {
             .collection('booking')
             .add({
                 bertemu: bertemu,
-                date: new Date(date.getFullYear(),date.getMonth(),date.getDate()),
-                time: `${date.getHours()}:${date.getMinutes()}`,
+                date: date.toDateString(),
+                time: date.toTimeString(),
                 kepentingan: kepentingan,
                 student_id: user_uid
             })
