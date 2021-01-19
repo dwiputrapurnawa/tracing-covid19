@@ -47,7 +47,7 @@ const News = ({ navigation }) => {
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
                 style={styles.news_container} imageStyle={styles.news_container} >
                 
-                <Image style={{width: 360, height: 200, margin: 10}} source={{uri: item.gambar}} />
+                <Image style={{width: 360, height: 200, margin: 10}} source={{uri: item.image}} />
 
                 <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 22, margin: 10}}>{item.title}</Text>
 
