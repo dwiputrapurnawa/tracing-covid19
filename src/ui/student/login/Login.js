@@ -108,7 +108,7 @@ const Login = ({ navigation }) => {
                 <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Sign In</Text>
                 <Input label={
                     <Text style={{fontWeight: 'bold', color: '#013765'}}>NIM</Text>
-                } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Insert your NIM" onChangeText={(value) => setNim(value)} accessoryLeft={nimIcon} />
+                } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="NIM" onChangeText={(value) => setNim(value)} accessoryLeft={nimIcon} />
                 <Input label={
                     <Text style={{fontWeight: 'bold', color: '#013765'}}>Password</Text>
                 } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Password" onChangeText={(value) => setPassword(value)}
@@ -144,8 +144,7 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <Layout onLayout={() => navigation.push('Tab_Student')}>
-        </Layout>
+        <Layout onLayout={() => navigation.push('Tab_Student')} />
     );
 }
 

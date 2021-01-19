@@ -18,18 +18,17 @@ const Home = ({ navigation }) => {
     const [, updateState] = useState();
     const [visible, setVisible] = useState(false);
     const [userData, setUserData] = useState({})
+    
 
-
-    const uid = auth().currentUser.uid;
+    
+    var user = !auth().currentUser ? '' : auth().currentUser
 
     const signOut = () => {
         auth()
             .signOut()
             .then(() => {
                 console.log('User signed out!');
-                return(
-                    <Layout onLayout={() => navigation.push('Startup')} />
-                );
+                navigation.navigate('Startup');    
             })
     }
 
@@ -46,7 +45,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user.uid)
             .onSnapshot(documentSnapshot => {
                 setUserData(documentSnapshot.data())
             })
@@ -57,7 +56,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('booking')
-            .where('student_id', '==', uid)
+            .where('student_id', '==', user.uid)
             .onSnapshot(querySnapshot => {
                 setTotalBook(querySnapshot.size)
                 setTotalLoading(false)
@@ -69,7 +68,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
         .collection('booking')
-        .where('student_id','==',uid)
+        .where('student_id','==',user.uid)
         .onSnapshot(querySnapshot => {
 
             const booking = [];
@@ -91,7 +90,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('booking')
-            .where('student_id','==',uid)
+            .where('student_id','==',user.uid)
             .limit(1)
             .onSnapshot(querySnapshot => {
                 
@@ -105,7 +104,6 @@ const Home = ({ navigation }) => {
         return () => subscriber();
     }, [])
         
-
 
     return (
         <SafeAreaView style={{backgroundColor: '#ffffff'}}>
@@ -127,7 +125,7 @@ const Home = ({ navigation }) => {
                     <View style={styles.avatar_container}>
                     <Text style={styles.avatar_text}>Hai, {userData.name}</Text>
                     <TouchableOpacity>
-                        <Avatar style={styles.avatar} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'}} />
+                        <Avatar style={styles.avatar} source={{uri: userData.avatar ? userData.avatar : 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'}} />
                         <Badge badgeStyle={styles.avatar_badge} status='success' />
                     </TouchableOpacity>
                 </View>

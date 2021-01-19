@@ -19,13 +19,14 @@ const Home = ({ navigation }) => {
     const [searchVal, setSearchVal] = useState('');
     const [userData, setUserData] = useState({})
 
-    const uid = 'ericcornetto'
+    const user = !auth().currentUser ? '' : auth().currentUser
 
     const signOut = () => {
         auth()
             .signOut()
             .then(() => {
                 console.log('User signed out!');
+                navigation.navigate('Startup');
             })
     }
 
@@ -38,7 +39,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('admin')
-            .doc(uid)
+            .doc(user.uid)
             .onSnapshot(documentSnapshot => {
 
                 setUserData(documentSnapshot.data())
@@ -61,7 +62,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('berita')
-            .where('author','==',uid)
+            .where('author','==',user.uid)
             .onSnapshot(querySnapshot => {
                 setMyTotalPost(querySnapshot.size)
                 setMyTotalPostLoading(false)
@@ -130,7 +131,7 @@ const Home = ({ navigation }) => {
     const selectMyPost = useCallback(() => {
         const subscriber = firestore()
             .collection('berita')
-            .where('author','==',uid)
+            .where('author','==',user.uid)
             .onSnapshot(querySnapshot => {
                 const post = [];
 
@@ -169,7 +170,7 @@ const Home = ({ navigation }) => {
                     <View style={styles.avatar_container}>
                     <Text style={styles.avatar_text}>Hai, {userData.name}</Text>
                     <TouchableOpacity onPress={() => navigation.push('Profile_Admin')}>
-                        <Avatar style={styles.avatar} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'}} />
+                        <Avatar style={styles.avatar} source={{uri: userData.avatar ? userData.avatar : 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'}} />
                         <Badge badgeStyle={styles.avatar_badge} status='success' />
                     </TouchableOpacity>
                 </View>
@@ -275,7 +276,7 @@ const Home = ({ navigation }) => {
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
                 style={styles.booking_container} imageStyle={styles.booking_container} >
                 
-                <Image style={{width: 360, height: 200, margin: 10}} source={{uri: item.gambar}} />
+                <Image style={{width: 360, height: 200, margin: 10}} source={{uri: item.image}} />
 
                 <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 22, margin: 10}}>{item.title}</Text>
 
