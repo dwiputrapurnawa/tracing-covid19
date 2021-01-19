@@ -34,11 +34,8 @@ const News = () => {
                 console.log(err);
               })
           .then(()=>{
-              firebase.firestore().collection("admin").doc("ericcornetto").update({
-                post: firebase.firestore.FieldValue.increment(1)
-              }).then(()=> {
-                Alert.alert("Post Successful")
-              })
+              Alert.alert("Post Successful")
+              
           }).catch((err) => {
             alert(err);
           })
