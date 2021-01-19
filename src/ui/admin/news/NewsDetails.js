@@ -12,7 +12,7 @@ const NewsDetails = ({route,navigation}) => {
             >
 
             
-            <ImageBackground style={{width: 420, height: 200}} imageStyle={{borderBottomRightRadius: 60, borderBottomLeftRadius: 60,}} source={{uri: item.gambar}}>
+            <ImageBackground style={{width: 420, height: 200}} imageStyle={{borderBottomRightRadius: 60, borderBottomLeftRadius: 60,}} source={{uri: item.image}}>
                 
             </ImageBackground>
 
