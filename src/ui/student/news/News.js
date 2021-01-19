@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-const QRCode = () => {
+const News = () => {
     return (
         <View style={styles.container}>
-            <Text>QRCode</Text>
+            <Text>News Page</Text>
         </View>
     );
 }
@@ -17,5 +17,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default QRCode;
+export default News;
 

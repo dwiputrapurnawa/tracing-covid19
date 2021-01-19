@@ -8,6 +8,7 @@ import Login from './src/ui/student/login/Login';
 import LoginAdmin from './src/ui/admin/login/Login';
 import ProfileStudent from './src/ui/student/profile/Profile';
 import ProfileAdmin from './src/ui/admin/profile/Profile';
+import News_Student from './src/ui/student/news/News';
 import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout } from '@ui-kitten/components';
@@ -28,12 +29,12 @@ function Startup({ navigation }) {
         <View>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Student')}>
             <Image style={styles.image_student} source={require('./src/img/student.png')} />
-            <Text style={styles.student_text}>Student</Text>
+            <Text style={styles.role_text}>Student</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Admin')}>
             <Image style={styles.image_admin} source={require('./src/img/admin.png')} />
-            <Text style={styles.student_text}>Admin</Text>
+            <Text style={styles.role_text}>Admin</Text>
           </TouchableOpacity>
         </View> 
         </ImageBackground>
@@ -58,6 +59,7 @@ export default function App() {
             <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />
+            <Stack.Screen name="News_Student" component={News_Student} options={{headerShown: false}} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexWrap: 'wrap'
   },
   image_background: {
     width: 420,
@@ -103,10 +106,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
   },
-  student_text: {
+  role_text: {
     alignSelf: 'center',
     fontWeight: 'bold',
     fontSize: 20,
+    color: '#013765'
   },
   header_text: {
     fontWeight: 'bold',

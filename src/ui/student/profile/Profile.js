@@ -14,7 +14,9 @@ const Profile = () => {
 
     const forceUpdate = useState()[1].bind(null, {})
 
-    var uid = auth().currentUser.uid;
+    // var uid = auth().currentUser.uid;
+
+    var uid = '1801020002';
 
     var fileName;
     var filePath;
