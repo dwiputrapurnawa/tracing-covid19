@@ -1,6 +1,6 @@
 import React, {useState,useEffect, useCallback} from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity, ActivityIndicator, FlatList, SafeAreaView, ImageBackground } from 'react-native';
-import { Avatar, Divider, Layout } from '@ui-kitten/components';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, FlatList, SafeAreaView, ImageBackground } from 'react-native';
+import { Avatar, Divider, Layout, Button } from '@ui-kitten/components';
 import { Badge, Overlay } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import QRCode from 'react-native-qrcode-generator';
@@ -18,8 +18,6 @@ const Home = ({ navigation }) => {
     const [, updateState] = useState();
     const [visible, setVisible] = useState(false);
     const [userData, setUserData] = useState({})
-    
-
     
     var user = !auth().currentUser ? '' : auth().currentUser
 
@@ -41,6 +39,7 @@ const Home = ({ navigation }) => {
         updateState;
         wait(2000).then(() => setRefreshing(false));
     });
+
 
     useEffect(() => {
         const subscriber = firestore()
@@ -230,7 +229,7 @@ const Home = ({ navigation }) => {
 
                     <Divider style={{borderWidth: 1, height: 155, borderColor: "#D2D2D2" }} />
                     
-                    <View style={{flexDirection: 'column', alignSelf: 'center', left: 20, bottom: 10}}>
+                    <View style={{flexDirection: 'column', alignSelf: 'center', left: 20, bottom: 10, marginTop: 20}}>
                             <QRCode
                             value={item.key}
                             size={80}
@@ -238,10 +237,25 @@ const Home = ({ navigation }) => {
                             fgColor='white'
                             
                             />
-                            <View style={{alignItems: 'center', borderWidth: 2, top: 20, backgroundColor:
-                             (item.status == 'Waiting') ? ('yellow') : ((item.status == 'In') ? ('green') : ('red')) , 
-                             borderColor: (item.status == 'Waiting') ? ('yellow') : ((item.status == 'In') ? ('green') : ('red')) }}>
-                                <Text style={{fontWeight: 'bold',  color: '#013765'}}>{item.status}</Text>
+                            <View style={{alignItems: 'center', borderWidth: 1, top: 20, borderRadius: 10 ,backgroundColor:
+                             (item.status == 'Waiting') ? ('#F7DC6F') : ((item.status == 'In') ? ('green') : ('red')) , 
+                             borderColor: (item.status == 'Waiting') ? ('#F7DC6F') : ((item.status == 'In') ? ('green') : ('red')) }}>
+                                <Text style={{fontWeight: 'bold',  color: 'white'}}>{item.status}</Text>
+                                {
+                                    ((item.status == 'Out') ? true : false)  && 
+                                    
+                                    <Button onPress={() => {
+                                        firestore()
+                                            .collection('booking')
+                                            .doc(item.key)
+                                            .delete()
+                                            .then(() => {
+                                                console.log('Booking Deleted')
+                                            })
+                                    }}  style={{borderRadius: 10, margin: 3, backgroundColor: '#013765', borderColor: '#013765', }}>
+                                        Delete
+                                    </Button>
+                                }
                             </View>
                             
                     </View>
@@ -257,6 +271,8 @@ const Home = ({ navigation }) => {
                             
                             />
                 </Overlay>
+                
+               
                 </>
                 }
                 
@@ -341,7 +357,7 @@ const styles = StyleSheet.create({
         borderColor: '#D2D2D2',
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
-        height: 200,
+        height: 230,
         width:380,
         alignSelf: 'center',
         borderRadius: 10,
