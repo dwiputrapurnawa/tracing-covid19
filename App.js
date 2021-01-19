@@ -34,7 +34,7 @@ function Startup({ navigation }) {
             <Text style={styles.role_text}>Student</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Admin')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginAdmin')}>
             <Image style={styles.image_admin} source={require('./src/img/admin.png')} />
             <Text style={styles.role_text}>Admin</Text>
           </TouchableOpacity>
@@ -60,7 +60,7 @@ export default function App() {
             <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
-            <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
+            <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />
             <Stack.Screen name="News_Student" component={News_Student} options={{headerShown: false}} />
