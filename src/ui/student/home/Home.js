@@ -1,6 +1,6 @@
 import React, {useState,useEffect, useCallback} from 'react';
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity, ActivityIndicator, FlatList, SafeAreaView, ImageBackground } from 'react-native';
-import { Avatar, Divider } from '@ui-kitten/components';
+import { Avatar, Divider, Layout } from '@ui-kitten/components';
 import { Badge, Overlay } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import QRCode from 'react-native-qrcode-generator';
@@ -20,13 +20,16 @@ const Home = ({ navigation }) => {
     const [visible, setVisible] = useState(false);
 
 
-    const uid = '1801020002'
+    const uid = auth().currentUser.uid;
 
     const signOut = () => {
         auth()
             .signOut()
             .then(() => {
                 console.log('User signed out!');
+                return(
+                    <Layout onLayout={() => navigation.push('Startup')} />
+                );
             })
     }
 
@@ -119,8 +122,6 @@ const Home = ({ navigation }) => {
                 </View>
                 
                 </ImageBackground>
-
-                <Button title="Login" onPress={() => navigation.push('Login')} />
 
            
 
