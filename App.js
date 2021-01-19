@@ -29,7 +29,7 @@ function Startup({ navigation }) {
           uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'
         }} />
         <View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Student')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
             <Image style={styles.image_student} source={require('./src/img/student.png')} />
             <Text style={styles.role_text}>Student</Text>
           </TouchableOpacity>
@@ -59,7 +59,7 @@ export default function App() {
             <Stack.Screen name="Startup" component={Startup} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
-            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
             <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />
