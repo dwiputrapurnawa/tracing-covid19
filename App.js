@@ -9,9 +9,11 @@ import LoginAdmin from './src/ui/admin/login/Login';
 import ProfileStudent from './src/ui/student/profile/Profile';
 import ProfileAdmin from './src/ui/admin/profile/Profile';
 import News_Student from './src/ui/student/news/News';
+import NewsDetails_Admin from './src/ui/admin/news/NewsDetails'
 import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Layout } from '@ui-kitten/components';
+import { ApplicationProvider, Layout, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +50,8 @@ function Startup({ navigation }) {
 
 export default function App() {
   return (
+    <>
+    <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light} > 
       <ThemeProvider>
         <NavigationContainer>
@@ -60,10 +64,12 @@ export default function App() {
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />
             <Stack.Screen name="News_Student" component={News_Student} options={{headerShown: false}} />
+            <Stack.Screen name="NewsDetails_Admin" component={NewsDetails_Admin} options={{headerShown: false}} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
     </ApplicationProvider>   
+    </>
   );
 }
 

@@ -11,10 +11,13 @@ const Profile = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [, updateState] = useState();
     const [user,setUser] = useState({});
+    const [myTotalPost, setMyTotalPost] = useState(0)
+    const [myTotalPostLoading, setMyTotalPostLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const forceUpdate = useState()[1].bind(null, {})
 
-    var uid = auth().currentUser.uid;
+    var uid = 'ericcornetto'
 
     var fileName;
     var filePath;
@@ -26,11 +29,24 @@ const Profile = () => {
             .onSnapshot(documentSnapshot => {
 
                 setUser(documentSnapshot.data())
+                setLoading(false)
 
                 console.log(user);
             })
         return () => subscriber();
     })
+
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('berita')
+            .where('author','==',uid)
+            .onSnapshot(querySnapshot => {
+                setMyTotalPost(querySnapshot.size)
+                setMyTotalPostLoading(false)
+            })
+        
+        return () => subscriber();
+    }, [])
 
 
     const onRefresh = useCallback(() => {
@@ -152,24 +168,24 @@ const Profile = () => {
             <View style={styles.row_container}>
                 <View>
                     <Text style={styles.header_text}>Nama Lengkap</Text>
-                    <Text>{user.name}</Text>
+                    <Text>{loading ? <ActivityIndicator size='small' color='#013765' /> : user.name}</Text>
                 </View>
 
                 <View style={{left: 110}}>
                     <Text style={styles.header_text}>Post</Text>
-                    <Text>{user.post}</Text>
+                    <Text>{myTotalPostLoading ? <ActivityIndicator size='small' color='#013765' /> : myTotalPost}</Text>
                 </View>
             </View> 
 
             <View style={styles.row_container}>
                 <View>
                     <Text style={styles.header_text}>Email</Text>
-                    <Text>{user.email}</Text>
+                    <Text>{loading ? <ActivityIndicator size='small' color='#013765' /> : user.email}</Text>
                 </View>
 
                 <View style={{left: 60}}>
                     <Text style={styles.header_text}>No. Handphone</Text>
-                    <Text>{user.telp}</Text>
+                    <Text>{loading ? <ActivityIndicator size='small' color='#013765' /> : user.telp}</Text>
                 </View>
             </View> 
                 
