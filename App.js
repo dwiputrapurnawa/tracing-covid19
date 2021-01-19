@@ -59,7 +59,7 @@ export default function App() {
             <Stack.Screen name="Startup" component={Startup} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
-            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
             <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />

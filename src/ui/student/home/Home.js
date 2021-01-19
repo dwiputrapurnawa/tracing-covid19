@@ -120,6 +120,8 @@ const Home = ({ navigation }) => {
                 
                 </ImageBackground>
 
+                <Button title="Login" onPress={() => navigation.push('Login')} />
+
            
 
             <View style={styles.icon_container}>
