@@ -270,7 +270,7 @@ const Home = ({ navigation }) => {
 
 
             renderItem={({item}) => (
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.push('NewsDetails_Admin', {item: item})}>
                 <ImageBackground
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
                 style={styles.booking_container} imageStyle={styles.booking_container} >
