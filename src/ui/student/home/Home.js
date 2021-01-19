@@ -105,7 +105,7 @@ const Home = ({ navigation }) => {
         
 
     return (
-        <SafeAreaView style={{backgroundColor: '#ffffff'}}>
+        <SafeAreaView style={{backgroundColor: '#1dc9d3'}}>
 
             <FlatList
             data={myBooking}
@@ -133,6 +133,40 @@ const Home = ({ navigation }) => {
 
            
 
+            
+            <View style={{flexDirection: 'row'}}>
+                <ImageBackground 
+                source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+                style={{width: 100, height: 150, flexDirection: 'column', margin: 20}}
+                imageStyle={{borderRadius: 10,}}
+                >
+                <Text style={styles.board_total_text}>Total</Text>
+                <Divider style={styles.board_total_divider} />
+                <Text style={{alignSelf: 'center', fontSize: 30, fontWeight: 'bold', top: 40, color: '#013765'}}>
+                    {
+                        totalLoading ? <ActivityIndicator size='large' color='#013765' /> : totalBook
+                    }
+                </Text>
+                </ImageBackground>
+
+                <ImageBackground 
+                source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+                style={{width: 200, height: 150, flexDirection: 'column', margin: 20,}}
+                imageStyle={{borderRadius: 10,}}
+                >
+                <Text style={styles.board_total_text}>Next Booking</Text>
+                <Divider style={styles.board_total_divider} />
+                <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 'bold', top: 40, color: '#013765'}}>
+                    {
+                        nextBookingLoading ? <ActivityIndicator size='large' color='#013765' /> : nextBooking
+                    }
+                </Text>
+
+                </ImageBackground>
+            </View>
+
+
+            
             <View style={styles.icon_container}>
 
                 <TouchableOpacity style={styles.icon_button} onPress={() => navigation.push('News_Student')}>
@@ -158,37 +192,6 @@ const Home = ({ navigation }) => {
                     style={styles.icon_settings}
                     />
                 </TouchableOpacity> 
-            </View>
-            
-            <View style={{flexDirection: 'row'}}>
-                <ImageBackground 
-                source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
-                style={{width: 100, height: 150, flexDirection: 'column', margin: 20,borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
-                imageStyle={{borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
-                >
-                <Text style={styles.board_total_text}>Total</Text>
-                <Divider style={styles.board_total_divider} />
-                <Text style={{alignSelf: 'center', fontSize: 30, fontWeight: 'bold', top: 40, color: '#013765'}}>
-                    {
-                        totalLoading ? <ActivityIndicator size='large' color='#013765' /> : totalBook
-                    }
-                </Text>
-                </ImageBackground>
-
-                <ImageBackground 
-                source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
-                style={{width: 200, height: 150, flexDirection: 'column', margin: 20, borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
-                imageStyle={{borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
-                >
-                <Text style={styles.board_total_text}>Next Booking</Text>
-                <Divider style={styles.board_total_divider} />
-                <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 'bold', top: 40, color: '#013765'}}>
-                    {
-                        nextBookingLoading ? <ActivityIndicator size='large' color='#013765' /> : nextBooking
-                    }
-                </Text>
-
-                </ImageBackground>
             </View>
                     
             
@@ -340,16 +343,17 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     icon_button: {
-        margin: 10 ,
+        margin: 5 ,
         height: 80,
-        width: 80,
+        width: 120,
         alignItems: 'center',
-        borderRadius: 20,
-        borderBottomWidth: 2,
-        borderRightWidth: 2,
         borderColor: '#D2D2D2',
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
         borderTopWidth: 0.2,
-        borderLeftWidth: 0.2
+        borderLeftWidth: 0.2,
+        borderRadius: 10,
+        backgroundColor: '#fff',
     },
     booking_container: {
         borderBottomWidth: 2,
@@ -411,12 +415,14 @@ const styles = StyleSheet.create({
     all_booking_text: {
         fontWeight: 'bold', 
         marginBottom: 5,
-        color: '#013765'
+        color: "#ffffff",
+        fontSize: 20,
+        borderColor: "#ffffff"
     },
     all_booking_divider: {
         borderWidth: 1, 
-        borderColor: '#D2D2D2',
-        marginBottom: 5
+        borderColor: "#ffffff",
+        marginBottom: 20
     },
 
 })

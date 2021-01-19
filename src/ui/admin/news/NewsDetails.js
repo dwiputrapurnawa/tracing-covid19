@@ -7,9 +7,6 @@ const NewsDetails = ({route,navigation}) => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
-            style={{width: 420}}
-            >
 
             
             <ImageBackground style={{width: 420, height: 200}} imageStyle={{borderBottomRightRadius: 60, borderBottomLeftRadius: 60,}} source={{uri: item.image}}>
@@ -23,7 +20,6 @@ const NewsDetails = ({route,navigation}) => {
                 <Text style={{fontSize: 18, textAlign: 'justify', margin: 10, color: '#013765'}}>{item.body}</Text>
                 <Text style={{right: 100, color: '#013765'}}>{item.author}</Text>
             </View>
-            </ImageBackground>
         </View>
     );
 }

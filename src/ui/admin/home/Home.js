@@ -151,7 +151,7 @@ const Home = ({ navigation }) => {
 
 
     return (
-        <SafeAreaView style={{backgroundColor: '#ffffff'}}>
+        <SafeAreaView style={{backgroundColor: '#1dc9d3'}}>
 
             <FlatList
             data={allPost}
@@ -180,41 +180,17 @@ const Home = ({ navigation }) => {
                 
                 </ImageBackground>
 
-                <View style={styles.icon_container}>
-
-                <TouchableOpacity style={styles.icon_button} onPress={() => navigation.push('Profile_Admin')}>
-                    <Image source={{
-                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'
-                    }}
-                    style={styles.icon_settings}
-                    />
-                </TouchableOpacity> 
-
-               
-
-                <TouchableOpacity style={styles.icon_button} onPress={signOut}>
-                    <Image source={{
-                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/settings.png?alt=media&token=564edd31-73e3-4ad5-8a7d-394ce9b424b5'
-                    }}
-                    style={styles.icon_settings}
-                    />
-                </TouchableOpacity> 
-
-                
-                </View>
-
            
-                
             
             
             <View style={{marginBottom: 10}}>
 
                 <ImageBackground 
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
-                style={{width: 350, height: 150, flexDirection: 'column', margin: 10, borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
-                imageStyle={{borderRadius: 10, borderColor: "#D2D2D2", borderWidth: 1}}
+                style={{width: 350, height: 150, flexDirection: 'column', margin: 20}}
+                imageStyle={{borderRadius: 10,}}
                 >
-                <Text style={styles.board_total_text}>Dashboard</Text>
+                <Text style={styles.board_total_text}>DASHBOARD</Text>
                 <Divider style={styles.board_total_divider} />
             
             <View style={{flexDirection: 'row'}}>
@@ -242,6 +218,29 @@ const Home = ({ navigation }) => {
 
                 </ImageBackground>
             </View>
+
+             <View style={styles.icon_container}>
+
+                <TouchableOpacity style={styles.icon_button} onPress={() => navigation.push('Profile_Admin')}>
+                    <Image source={{
+                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'
+                    }}
+                    style={styles.icon_settings}
+                    />
+                </TouchableOpacity> 
+
+               
+
+                <TouchableOpacity style={styles.icon_button} onPress={signOut}>
+                    <Image source={{
+                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/settings.png?alt=media&token=564edd31-73e3-4ad5-8a7d-394ce9b424b5'
+                    }}
+                    style={styles.icon_settings}
+                    />
+                </TouchableOpacity> 
+
+                
+                </View>
 
             
         <View style={{flexDirection: 'row', marginBottom: 30, marginTop: 20}}>
@@ -347,14 +346,15 @@ const styles = StyleSheet.create({
     icon_button: {
         margin: 10 ,
         height: 80,
-        width: 80,
+        width: 120,
         alignItems: 'center',
-        borderRadius: 20,
-        borderBottomWidth: 2,
-        borderRightWidth: 2,
         borderColor: '#D2D2D2',
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
         borderTopWidth: 0.2,
-        borderLeftWidth: 0.2
+        borderLeftWidth: 0.2,
+        borderRadius: 10,
+        backgroundColor: '#fff'
     },
     booking_container: {
         borderBottomWidth: 2,
@@ -416,11 +416,13 @@ const styles = StyleSheet.create({
     all_booking_text: {
         fontWeight: 'bold', 
         marginBottom: 5,
-        color: '#013765'
+        color: "#ffffff",
+        fontSize: 20,
+        borderColor: "#ffffff"
     },
     all_booking_divider: {
         borderWidth: 1, 
-        borderColor: '#D2D2D2',
+        borderColor: "#ffffff",
         marginBottom: 5
     },
 
