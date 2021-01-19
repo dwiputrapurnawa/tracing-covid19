@@ -16,8 +16,8 @@ const Home = ({ navigation }) => {
     const [myBookingLoading, setMyBookingLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
     const [, updateState] = useState();
-    const [qrcode, setQRCode] = useState('In')
     const [visible, setVisible] = useState(false);
+    const [userData, setUserData] = useState({})
 
 
     const uid = '1801020002'
@@ -39,6 +39,17 @@ const Home = ({ navigation }) => {
         updateState;
         wait(2000).then(() => setRefreshing(false));
     });
+
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('student')
+            .doc(uid)
+            .onSnapshot(documentSnapshot => {
+                setUserData(documentSnapshot.data())
+            })
+
+        return () => subscriber();
+    })
 
     useEffect(() => {
         const subscriber = firestore()
@@ -111,7 +122,7 @@ const Home = ({ navigation }) => {
 
                 <Image style={styles.header_logo}  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84' }} />
                     <View style={styles.avatar_container}>
-                    <Text style={styles.avatar_text}>Hai, Ida Bagus Dwi Putra Purnawa</Text>
+                    <Text style={styles.avatar_text}>Hai, {userData.name}</Text>
                     <TouchableOpacity>
                         <Avatar style={styles.avatar} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/profile.png?alt=media&token=cf16a8b0-6247-482b-93a8-cf82185a095b'}} />
                         <Badge badgeStyle={styles.avatar_badge} status='success' />
