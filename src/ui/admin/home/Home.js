@@ -46,7 +46,7 @@ const Home = ({ navigation }) => {
 
             })
         return () => subscriber();
-    })
+    }, [])
 
     useEffect(() => {
         const subscriber = firestore()
