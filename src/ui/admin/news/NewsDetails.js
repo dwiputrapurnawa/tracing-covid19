@@ -27,7 +27,7 @@ const NewsDetails = ({route,navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     }
 })
 
