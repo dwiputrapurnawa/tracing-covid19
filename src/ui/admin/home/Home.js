@@ -39,7 +39,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('admin')
-            .doc(user.uid)
+            .doc(user.email)
             .onSnapshot(documentSnapshot => {
 
                 setUserData(documentSnapshot.data())
@@ -62,7 +62,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('berita')
-            .where('author','==',user.uid)
+            .where('author','==',user.email)
             .onSnapshot(querySnapshot => {
                 setMyTotalPost(querySnapshot.size)
                 setMyTotalPostLoading(false)
@@ -131,7 +131,7 @@ const Home = ({ navigation }) => {
     const selectMyPost = useCallback(() => {
         const subscriber = firestore()
             .collection('berita')
-            .where('author','==',user.uid)
+            .where('author','==',user.email)
             .onSnapshot(querySnapshot => {
                 const post = [];
 

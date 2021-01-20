@@ -17,9 +17,10 @@ const Home = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [, updateState] = useState();
     const [visible, setVisible] = useState(false);
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState({});
     
-    var user = !auth().currentUser ? '' : auth().currentUser
+
+    const user = !auth().currentUser ? '' : auth().currentUser;
 
     const signOut = () => {
         auth()
@@ -44,7 +45,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('student')
-            .doc(user.uid)
+            .doc(user.email)
             .onSnapshot(documentSnapshot => {
                 setUserData(documentSnapshot.data())
             })
@@ -55,7 +56,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('booking')
-            .where('student_id', '==', user.uid)
+            .where('student_id', '==', user.email)
             .onSnapshot(querySnapshot => {
                 setTotalBook(querySnapshot.size)
                 setTotalLoading(false)
@@ -67,7 +68,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
         .collection('booking')
-        .where('student_id','==',user.uid)
+        .where('student_id','==',user.email)
         .onSnapshot(querySnapshot => {
 
             const booking = [];
@@ -89,7 +90,7 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('booking')
-            .where('student_id','==',user.uid)
+            .where('student_id','==',user.email)
             .limit(1)
             .onSnapshot(querySnapshot => {
                 

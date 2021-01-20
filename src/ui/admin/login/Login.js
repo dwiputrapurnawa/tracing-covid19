@@ -48,18 +48,6 @@ const Login = ({ navigation }) => {
         <Icon {...props} name='lock'/>
       );
 
-    const sendTokenRequest = () => {
-        return fetch('http://192.168.1.59:3000/api-admin', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username
-            })
-        })
-    }
 
     const Signin = () => {
         firestore()
@@ -70,23 +58,20 @@ const Login = ({ navigation }) => {
             .then((querySnapshot) => {
                 console.log('User is Valid!');
 
-                sendTokenRequest();
-
                 querySnapshot.forEach(documentSnapshot => {
-                    console.log(documentSnapshot.data()['token']);
-
-                    if(documentSnapshot.data()['token'] == "") {
-                        return null;
-                    }
-
                     auth()
-                        .signInWithCustomToken(documentSnapshot.data()['token'])
-                        .then(() => {
-                            console.log('User Signed in!');
-                        })
-                        .catch((error) => {
-                            console.log(error.code,error.message);
-                        })
+                    .signInWithEmailAndPassword(documentSnapshot.data()['email'],password)
+                    .then(() => {
+                        console.log('User account signed in!');
+                    })
+                    .catch(error => {
+                    
+                        if (error.code === 'auth/invalid-email') {
+                          console.log('That email address is invalid!');
+                        }
+                    
+                        console.error(error);
+                      });
                 })
             }) 
     }

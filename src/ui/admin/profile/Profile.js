@@ -17,7 +17,7 @@ const Profile = () => {
 
     const forceUpdate = useState()[1].bind(null, {})
 
-    var uid = 'ericcornetto'
+    const user_auth = auth().currentUser;
 
     var fileName;
     var filePath;
@@ -25,7 +25,7 @@ const Profile = () => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('admin')
-            .doc(uid)
+            .doc(user_auth.email)
             .onSnapshot(documentSnapshot => {
 
                 setUser(documentSnapshot.data())
@@ -39,7 +39,7 @@ const Profile = () => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('berita')
-            .where('author','==',uid)
+            .where('author','==',user_auth.email)
             .onSnapshot(querySnapshot => {
                 setMyTotalPost(querySnapshot.size)
                 setMyTotalPostLoading(false)
@@ -62,7 +62,7 @@ const Profile = () => {
 
         firestore()
             .collection('admin')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 avatar: url
             })
@@ -78,7 +78,7 @@ const Profile = () => {
 
         firestore()
             .collection('admin')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 background: url
             })

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, } from 'react';
-import { StyleSheet, Text, View, Button, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { CheckBox, Input } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import auth from '@react-native-firebase/auth';
 
-const Booking = () => {
+const Booking = ({ navigation }) => {
 
     const [kepentingan, setKepentingan] = useState();
     const [bertemu, setBertemu] = useState();
@@ -14,13 +14,26 @@ const Booking = () => {
     const [show, setShow] = useState(false);
     const [kouta, setKouta] = useState(0);
 
-    var user_uid = auth().currentUser.uid;
+    const user = auth().currentUser
 
     const onChange = (event,selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS == 'Android');
         setDate(currentDate);
         
+    }
+
+    const createSuccessfullBooking = () => {
+        Alert.alert(
+            "Booking",
+            "Your booking Successfully",
+            [
+                {
+                    text: 'Ok', onPress: () => console.log('Oke')
+                }
+            ],
+            {cancelable: false}
+        )
     }
 
     const showMode = (currentMode) => {
@@ -57,12 +70,11 @@ const Booking = () => {
                 time: date.toTimeString(),
                 kepentingan: kepentingan,
                 status: "Waiting",
-                student_id: user_uid
+                student_id: user.email
             })
             .then(() => {
                 console.log('Booking Successfull');
-                setKepentingan('');
-                setBertemu('');
+                createSuccessfullBooking();
             })
     }
 

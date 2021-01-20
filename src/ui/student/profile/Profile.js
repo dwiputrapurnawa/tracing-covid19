@@ -15,9 +15,8 @@ const Profile = () => {
 
     const forceUpdate = useState()[1].bind(null, {})
 
-    // var uid = auth().currentUser.uid;
+    const user_auth = auth().currentUser;
 
-    var uid = '1801020002';
 
     var fileName;
     var filePath;
@@ -25,7 +24,7 @@ const Profile = () => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .onSnapshot(documentSnapshot => {
 
                 setUser(documentSnapshot.data())
@@ -50,7 +49,7 @@ const Profile = () => {
 
         firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 avatar: url
             })
@@ -66,7 +65,7 @@ const Profile = () => {
 
         firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 background: url
             })

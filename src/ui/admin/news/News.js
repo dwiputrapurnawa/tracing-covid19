@@ -6,18 +6,17 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
 import { ScrollView } from 'react-native-gesture-handler';
 
-
-
-
 const News = () => {
 
 
     const db = firestore();
 
-      const [author, setAuthor] = useState('');
-      const [title, setTitle] = useState('');
-      const [body, setBody] = useState('');
-      const [image, setImage] = useState(null);
+    const [author, setAuthor] = useState('');
+    const [title, setTitle] = useState('');
+    const [body, setBody] = useState('');
+    const [image, setImage] = useState(null);
+
+    const user = auth().currentUser;
      
     const forceUpdate = useState()[1].bind(null, {})
       var fileName;
@@ -26,7 +25,7 @@ const News = () => {
         
             firebase.firestore().collection('berita')
               .add({
-                author: author,
+                author: user.email,
                 title: title,
                 body: body,
                 image: image,
@@ -82,12 +81,6 @@ const News = () => {
 
     <View style={styles.container}>
       <Text style={{ fontWeight: "bold", fontSize: 30, paddingBottom: 20 }}>News</Text>
-
-      <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Author</Text>
-      <TextInput style={styles.textUser}
-        value={author}
-        onChangeText={(text) => setAuthor(text)}
-      />
 
       <Text style={{ marginTop: 17, marginBottom: 5, fontWeight: "bold" }}>Title</Text>
       <TextInput style={styles.textUser}
