@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ImageBackground, TouchableWithoutFeedback, Touc
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Input, Icon, CheckBox, Layout } from '@ui-kitten/components';
+import { log } from 'react-native-reanimated';
 
 const Login = ({ navigation }) => {
 
@@ -56,9 +57,15 @@ const Login = ({ navigation }) => {
             .where('password', '==', password)
             .get()
             .then((querySnapshot) => {
-                console.log('User is Valid!');
+               
+                if(querySnapshot['docs'] == '') {
+                    console.log('USER INVALID!')
+                } else {
+                    console.log('USER VALID');
+                }
+
                 
-                
+               
                 querySnapshot.forEach(documentSnapshot => {
                     
                     auth()
@@ -73,7 +80,7 @@ const Login = ({ navigation }) => {
                         }
                     
                         console.error(error);
-                      });
+                      })
                 })
             })
         

@@ -56,7 +56,14 @@ const Login = ({ navigation }) => {
             .where('password','==',password)
             .get()
             .then((querySnapshot) => {
-                console.log('User is Valid!');
+                
+
+                if(querySnapshot['docs'] == '') {
+                    console.log('USER INVALID!')
+                } else {
+                    console.log('USER VALID');
+                }
+
 
                 querySnapshot.forEach(documentSnapshot => {
                     auth()

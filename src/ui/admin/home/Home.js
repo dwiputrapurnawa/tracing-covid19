@@ -233,7 +233,7 @@ const Home = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.icon_button} onPress={signOut}>
                     <Image source={{
-                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/settings.png?alt=media&token=564edd31-73e3-4ad5-8a7d-394ce9b424b5'
+                        uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/5844.jpg?alt=media&token=2d304e5a-4ce7-405b-9800-03108d4ab7f0'
                     }}
                     style={styles.icon_settings}
                     />
@@ -317,7 +317,8 @@ const styles = StyleSheet.create({
     icon_settings: {
         width: 60,
         height: 60,
-        margin: 8
+        margin: 8,
+        borderRadius: 40
     },
     avatar_container: {
         flexDirection: 'row',
@@ -346,14 +347,14 @@ const styles = StyleSheet.create({
     icon_button: {
         margin: 10 ,
         height: 80,
-        width: 120,
+        width: 80,
         alignItems: 'center',
         borderColor: '#D2D2D2',
         borderRightWidth: 1,
         borderBottomWidth: 1,
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
-        borderRadius: 10,
+        borderRadius: 40,
         backgroundColor: '#fff'
     },
     booking_container: {

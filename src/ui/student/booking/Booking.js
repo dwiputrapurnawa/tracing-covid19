@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react';
 import { StyleSheet, Text, View, Button, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
-import { CheckBox, Input } from '@ui-kitten/components';
+import { Input } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import auth from '@react-native-firebase/auth';
@@ -119,6 +119,8 @@ const Booking = ({ navigation }) => {
                      backgroundColor: '#ffffff', alignItems: 'center', borderColor: "#D2D2D2" }}>
                     <Text style={{fontSize: 30, fontWeight: 'bold', color: '#013765', marginTop: 5 }}>Submit</Text>
                 </TouchableOpacity>
+
+                
 
                 {
                     show && (
