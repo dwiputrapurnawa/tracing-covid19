@@ -4,7 +4,7 @@ import { Avatar, Divider, Input, Icon } from '@ui-kitten/components';
 import { Badge, } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+ 
 const Home = ({ navigation }) => {
 
     const [allPost, setAllPost] = useState([]);

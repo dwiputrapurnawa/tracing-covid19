@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList, ImageBackground } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -55,6 +55,9 @@ const List = () => {
 
     return (
       <ScrollView>
+        <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+          >
         <Text style={styles.txt}>list</Text>
         <FlatList 
         data={users}
@@ -80,6 +83,8 @@ const List = () => {
           </View>
         )}
       />
+          </ImageBackground>
+        
       </ScrollView>
 
     );
@@ -120,6 +125,14 @@ const styles = StyleSheet.create({
       textAlign: "center",
       textTransform: "uppercase",
       fontWeight: 'bold'
+    },
+
+    image_background: {
+      width: 390,
+      height: 800,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: -1
     }
 
     
