@@ -126,7 +126,7 @@ const News = () => {
       <Input
         multiline={true}
         status='primary'
-        textStyle={{ minHeight: 150 }}
+        textStyle={{ minHeight: 150, textAlignVertical: 'top', maxHeight: 150 }}
         placeholder='Konten Berita'
         style={{width: '80%', borderColor: '#35a7f2', marginTop: 10 }}
         {...multilineInputState}
