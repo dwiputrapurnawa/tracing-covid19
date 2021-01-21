@@ -1,13 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text,TouchableOpacity, View, TextInput, Alert, Image } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Alert, ImageBackground } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Input, Button, Icon, } from '@ui-kitten/components';
 
+const useInputState = (initialValue = '') => {
+  const [value, setValue] = React.useState(initialValue);
+  return { value, onChangeText: setValue };
+};
+
+const ImageIcon = (props) => (
+  <Icon {...props} name='image'/>
+);
+
+const RightArrow = (props) => (
+  <Icon {...props} name='arrow-right'/>
+);
 const News = () => {
 
+  const multilineInputState = useInputState();
+  const mediumInputState = useInputState();
 
     const db = firestore();
 
@@ -80,27 +95,55 @@ const News = () => {
     <ScrollView  >
 
     <View style={styles.container}>
-      <Text style={{ fontWeight: "bold", fontSize: 30, paddingBottom: 20 }}>News</Text>
+      <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+      >
+      <Text style={{ fontWeight: "bold", fontSize: 55, paddingBottom: 20 }}>News</Text>
 
-      <Text style={{ marginTop: 17, marginBottom: 5, fontWeight: "bold" }}>Title</Text>
-      <TextInput style={styles.textUser}
+      <Input
+        style={styles.input}
+        size='medium'
+        status='primary'
+        style={{width: '80%', borderColor: '#35a7f2' }}
+        placeholder='Author Berita'
+        {...mediumInputState}
+        value={author}
+        onChangeText={(text) => setAuthor(text)}
+      />
+
+      <Input
+        style={styles.input}
+        size='medium'
+        status='primary'
+        style={{width: '80%', borderColor: '#35a7f2', marginTop: 10 }}
+        placeholder='Judul Berita'
+        {...mediumInputState}
         value={title}
         onChangeText={(text) => setTitle(text)}
       />
 
-      <Text style={{ marginBottom: 5, marginTop: 17, fontWeight: "bold" }}>Body</Text>
-      <TextInput style={styles.textUser}
+
+      <Input
+        multiline={true}
+        status='primary'
+        textStyle={{ minHeight: 150, textAlignVertical: 'top', maxHeight: 150 }}
+        placeholder='Konten Berita'
+        style={{width: '80%', borderColor: '#35a7f2', marginTop: 10 }}
+        {...multilineInputState}
         value={body}
         onChangeText={(text) => setBody(text)}
       />
 
-      <TouchableOpacity style={styles.button} onPress={chooseImage}>
-        <Text style={{ color: "white" }}>Choose Image</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={postNewsPressed}>
-        <Text style={{ color: "white" }}>Post</Text>
-      </TouchableOpacity>
+      <Button  status='basic' appearance='outline'  accessoryLeft={ImageIcon} onPress={chooseImage} style={{width: '80%', marginTop: 10, borderRadius: 30 }} >
+        Choose Image
+      </Button>
+      
+
+      <Button  status='primary' style={{width: '80%', marginTop: 10, borderRadius: 30 }} appearance='outline'  accessoryRight={RightArrow} onPress={postNewsPressed }>
+        Upload Berita
+      </Button>
+      </ImageBackground>
     </View>
   </ScrollView>
 
@@ -111,30 +154,14 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center'
-    },button: {
-      marginTop: 10
-    }, textUser: {
-      marginTop: 5,
-      borderColor: "#777",
-      borderWidth: 1,
-      borderRadius: 10,
-      width: 286,
-      padding: 8
-    }, textPass: {
-      marginTop: 5,
-      borderColor: "#777",
-      borderWidth: 1,
-      width: 286,
-      borderRadius: 10,
-      padding: 8
-    }, button: {
-      marginTop: 20,
-      marginBottom: 20,
-      alignItems: "center",
-      backgroundColor: "#2d3030",
-      borderRadius: 10,
-      padding: 10,
+      justifyContent: 'center',
+    },
+    
+    image_background: {
+      width: 390,
+      height: 800,
+      justifyContent: 'center',
+      alignItems: 'center',
     }
 });
 
