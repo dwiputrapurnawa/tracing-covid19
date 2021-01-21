@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import {launchImageLibrary} from 'react-native-image-picker';
-import auth from '@react-native-firebase/auth';
-import { ScrollView } from 'react-native-gesture-handler';
+import { DataTable } from 'react-native-paper';
+import { Input, Icon } from '@ui-kitten/components';
 
 const List = () => {
 
@@ -12,20 +11,7 @@ const List = () => {
     const [loading, setLoading] = useState(true); 
     const [users, setUsers] = useState([]); 
 
-    //function buat ubah status waiting ke in
-    const waitingtoIn = (id) =>{
-        var status = firestore().collection("booking").doc(id);
-        return status.update({
-            status:"In"
-        })
-        .then(function() {
-            console.log("Status successfully updated!");
-        })
-        .catch(function(error) {
-            console.error("Error updating document: ", error);
-        });
 
-    }
 
     useEffect(() => {
         const subscriber = firestore()
@@ -47,10 +33,16 @@ const List = () => {
         
         return () => subscriber();
       }, []);
+
+      
+    const searchIcon = (props) => (
+      <Icon {...props} name="search" />
+    )
     
       if (loading) {
         return <ActivityIndicator />;
       }
+
 
     return (
 
@@ -79,7 +71,7 @@ const List = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-       
+        backgroundColor: '#fff'
     },
     button: {
         marginTop: 20,
