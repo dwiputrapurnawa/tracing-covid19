@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, Button, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -53,11 +53,12 @@ const List = () => {
       }
 
     return (
+
         <FlatList 
         data={users}
         keyExtractor={(users,index)=>index}
         renderItem={({ item }) => (
-          <View style={{ height: 150, flex: 1, alignItems: 'center', justifyContent: 'center',marginTop: 80 }}>
+          <View style={styles.card}>
             <Text>Bertemu: {item.bertemu}</Text>
             <Text>Tanggal: {item.date}</Text>
             <Text>Kepentingan: {item.kepentingan}</Text>
@@ -70,6 +71,7 @@ const List = () => {
           </View>
         )}
       />
+
     );
 }
 
@@ -86,7 +88,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#2d3030",
         borderRadius: 10,
         padding: 10,
-      }
+      },
+
+    txt: {
+      fontSize: 20,
+      
+    },
+
+    
 })
 
 export default List;

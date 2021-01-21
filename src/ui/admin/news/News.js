@@ -132,12 +132,12 @@ const News = () => {
       />
 
 
-      <Button  status='basic' appearance='outline'  accessoryLeft={ImageIcon} onPress={chooseImage} style={{width: '80%', marginTop: 10 }} >
+      <Button  status='basic' appearance='outline'  accessoryLeft={ImageIcon} onPress={chooseImage} style={{width: '80%', marginTop: 10, borderRadius: 30 }} >
         Choose Image
       </Button>
       
 
-      <Button  status='primary' style={{width: '80%', marginTop: 10 }} appearance='outline'  accessoryRight={RightArrow} onPress={postNewsPressed }>
+      <Button  status='primary' style={{width: '80%', marginTop: 10, borderRadius: 30 }} appearance='outline'  accessoryRight={RightArrow} onPress={postNewsPressed }>
         Upload Berita
       </Button>
     </View>
