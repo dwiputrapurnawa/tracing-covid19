@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, ActivityIndicator, FlatList, ImageBackground } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import { DataTable } from 'react-native-paper';
-import { Input, Icon } from '@ui-kitten/components';
+import {launchImageLibrary} from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Card, Title, Paragraph } from 'react-native-paper';
 
 const List = () => {
 
@@ -45,24 +47,38 @@ const List = () => {
 
 
     return (
-
+      <ScrollView>
+        <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+          >
+        <Text style={styles.txt}>list</Text>
         <FlatList 
         data={users}
         keyExtractor={(users,index)=>index}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text>Bertemu: {item.bertemu}</Text>
-            <Text>Tanggal: {item.date}</Text>
-            <Text>Kepentingan: {item.kepentingan}</Text>
-            <Text>Status: {item.status}</Text>
-            <Text>ID Mahasiswa: {item.student_id}</Text>
-            <Text>Waktu: {item.time}</Text>
-            <TouchableOpacity  style={styles.button} onPress={() => waitingtoIn(item.key)}>
-                 <Text style={{ color: "white" }}>Confirm</Text>
-            </TouchableOpacity>
+          <View  >
+            <Card style={styles.card}>
+              <Card.Content>
+                <Title>Izin Ke Kampus</Title>
+                <Paragraph>Bertemu: {item.bertemu}</Paragraph>
+                <Paragraph>Kepentingan: {item.kepentingan}</Paragraph>
+                <Paragraph>Tanggal: {item.date}</Paragraph>
+                <Paragraph>ID Mahasiswa: {item.student_id}</Paragraph>
+                <Paragraph>Waktu: {item.time}</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+              <Paragraph>Status: {item.status}</Paragraph>
+              <TouchableOpacity  style={styles.button} onPress={() => waitingtoIn(item.key)}>
+                 <Text style={{ color: "#000",fontWeight: 'bold',  textTransform: 'uppercase' }}>Confirm</Text>
+              </TouchableOpacity>
+              </Card.Actions>
+            </Card>
           </View>
         )}
       />
+          </ImageBackground>
+        
+      </ScrollView>
 
     );
 }
@@ -76,16 +92,41 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
         marginBottom: 20,
+        marginLeft: 10,
         alignItems: "center",
-        backgroundColor: "#2d3030",
+        backgroundColor: "#00E8FF",
         borderRadius: 10,
         padding: 10,
       },
 
-    txt: {
-      fontSize: 20,
-      
+    card: {
+      width: "80%",
+      borderWidth: 1,
+      marginHorizontal: "10%",
+      marginVertical: 10,
+      borderRadius: 20,
+      borderColor: 'navy',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 1.0,
+      shadowRadius: 2,
+      elevation: 10,
     },
+
+    txt: {
+      fontSize: 60,
+      textAlign: "center",
+      textTransform: "uppercase",
+      fontWeight: 'bold'
+    },
+
+    image_background: {
+      width: 390,
+      height: 800,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: -1
+    }
 
     
 })
