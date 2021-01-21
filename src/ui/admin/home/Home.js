@@ -18,6 +18,7 @@ const Home = ({ navigation }) => {
     const [, updateState] = useState();
     const [searchVal, setSearchVal] = useState('');
     const [userData, setUserData] = useState({})
+    const [postLoading, setPostLoading] = useState(true);
 
     const user = !auth().currentUser ? '' : auth().currentUser
 
@@ -32,7 +33,58 @@ const Home = ({ navigation }) => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
+        setTotalLoading(true);
+        setTotalBookingLoading(true);
+        setMyTotalPostLoading(true);
+        setPostLoading(true)
         updateState;
+
+        firestore()
+            .collection('admin')
+            .doc(user.email)
+            .onSnapshot(documentSnapshot => {
+
+                setUserData(documentSnapshot.data())
+
+            })
+
+            firestore()
+            .collection('berita')
+            .onSnapshot(querySnapshot => {
+                setTotalPost(querySnapshot.size)
+                setTotalLoading(false)
+            })
+
+            firestore()
+            .collection('berita')
+            .where('author','==',user.email)
+            .onSnapshot(querySnapshot => {
+                setMyTotalPost(querySnapshot.size)
+                setMyTotalPostLoading(false)
+            })
+
+            firestore()
+            .collection('booking')
+            .onSnapshot(querySnapshot => {
+                setTotalBooking(querySnapshot.size)
+                setTotalBookingLoading(false)
+            })
+
+            firestore()
+            .collection('berita')
+            .onSnapshot(querySnapshot => {
+                const post = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    post.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setAllPost(post)
+                setPostLoading(false)
+            })
         wait(2000).then(() => setRefreshing(false));
     });
 
@@ -189,7 +241,7 @@ const Home = ({ navigation }) => {
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
                 style={{width: 350, height: 150, flexDirection: 'column', margin: 20}}
                 imageStyle={{borderRadius: 10,}}
-                >
+                > 
                 <Text style={styles.board_total_text}>DASHBOARD</Text>
                 <Divider style={styles.board_total_divider} />
             
@@ -274,11 +326,11 @@ const Home = ({ navigation }) => {
                 <ImageBackground
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
                 style={styles.booking_container} imageStyle={styles.booking_container} >
-                
+                {postLoading ? <ActivityIndicator size='large' color='#013765' style={{alignSelf: 'center', marginTop: 150}} /> : <>
                 <Image style={{width: 360, height: 200, margin: 10}} source={{uri: item.image}} />
 
                 <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 22, margin: 10}}>{item.title}</Text>
-
+            </>}
                 </ImageBackground>
                 </TouchableOpacity>
             )}

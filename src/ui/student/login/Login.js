@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ImageBackground, TouchableWithoutFeedback, Touc
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Input, Icon, CheckBox, Layout } from '@ui-kitten/components';
-import { log } from 'react-native-reanimated';
 
 const Login = ({ navigation }) => {
 

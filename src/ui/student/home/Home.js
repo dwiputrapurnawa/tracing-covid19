@@ -37,6 +37,57 @@ const Home = ({ navigation }) => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
+        setTotalLoading(true);
+        setNextBookingLoading(true);
+        setMyBookingLoading(true);
+
+        
+        firestore()
+            .collection('student')
+            .doc(user.email)
+            .onSnapshot(documentSnapshot => {
+                setUserData(documentSnapshot.data())
+            })
+
+            firestore()
+            .collection('booking')
+            .where('student_id', '==', user.email)
+            .onSnapshot(querySnapshot => {
+                setTotalBook(querySnapshot.size)
+                setTotalLoading(false)
+            })
+
+            firestore()
+        .collection('booking')
+        .where('student_id','==',user.email)
+        .onSnapshot(querySnapshot => {
+
+            const booking = [];
+
+            querySnapshot.forEach(documentSnapshot => {
+                booking.push({
+                    ...documentSnapshot.data(),
+                    key: documentSnapshot.id,
+                });
+            });
+
+            setMyBooking(booking)
+            setMyBookingLoading(false)
+        })
+
+        firestore()
+        .collection('booking')
+        .where('student_id','==',user.email)
+        .limit(1)
+        .onSnapshot(querySnapshot => {
+            
+
+            querySnapshot.forEach(documentSnapshot => {
+                setNextBooking(documentSnapshot.data()['date'])
+                setNextBookingLoading(false)
+            })
+        })
+
         updateState;
         wait(2000).then(() => setRefreshing(false));
     });
@@ -217,7 +268,7 @@ const Home = ({ navigation }) => {
                 >
                 
                 {
-                    myBookingLoading ? <ActivityIndicator size='large' color='#013765' /> : <>
+                    myBookingLoading ? <ActivityIndicator size='large' color='#013765' style={{alignSelf: 'center', marginTop: 100}} /> : <>
                     <Text style={{alignSelf: 'center', fontWeight: 'bold', fontSize: 30, color: '#013765',}}>Booking</Text>
                 <Divider style={{borderColor: "#D2D2D2", borderWidth: 1}} />
 

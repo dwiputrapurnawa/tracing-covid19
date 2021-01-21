@@ -33,10 +33,7 @@ const List = () => {
         return () => subscriber();
       }, []);
 
-      
-    const searchIcon = (props) => (
-      <Icon {...props} name="search" />
-    )
+
     
       if (loading) {
         return <ActivityIndicator />;
@@ -46,41 +43,6 @@ const List = () => {
     return (
        <View style={styles.container}>
 
-
-
-         <Input style={{width: 350,}} placeholder="Search" accessoryLeft={searchIcon} />
-
-
-         <DataTable style={{flexWrap: 'wrap'}}>
-           <DataTable.Header>
-             <DataTable.Title>Email</DataTable.Title>
-             <DataTable.Title>Date</DataTable.Title>
-             <DataTable.Title>Time</DataTable.Title>
-             <DataTable.Title>Kepentingan</DataTable.Title>
-             <DataTable.Title>Bertemu</DataTable.Title>
-             <DataTable.Title>Status</DataTable.Title>
-           </DataTable.Header>
-
-           {
-             users.map((item,key) => (
-               <DataTable.Row key={key}>
-                 <DataTable.Cell>{item.student_id}</DataTable.Cell>
-                 <DataTable.Cell>{item.date}</DataTable.Cell>
-                 <DataTable.Cell>{item.time}</DataTable.Cell>
-                 <DataTable.Cell>{item.kepentingan}</DataTable.Cell>
-                 <DataTable.Cell>{item.status}</DataTable.Cell>
-               </DataTable.Row>
-             ))
-           }
-
-           <DataTable.Pagination
-           page={1}
-           numberOfPages={3}
-           onPageChange={page => console.log(page)}
-           label="1-2 of 6"
-           
-           />
-         </DataTable>
        </View>
     );
 }

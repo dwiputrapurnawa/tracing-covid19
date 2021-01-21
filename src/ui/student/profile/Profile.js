@@ -29,8 +29,6 @@ const Profile = () => {
 
                 setUser(documentSnapshot.data())
                 setLoading(false)
-
-                console.log(user);
             })
         return () => subscriber();
     })
@@ -38,7 +36,17 @@ const Profile = () => {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
+        setLoading(true)
         updateState;
+
+        firestore()
+            .collection('student')
+            .doc(user_auth.email)
+            .onSnapshot(documentSnapshot => {
+
+                setUser(documentSnapshot.data())
+                setLoading(false)
+            })
         wait(2000).then(() => setRefreshing(false));
     })
 
