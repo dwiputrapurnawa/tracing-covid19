@@ -149,6 +149,7 @@ const Home = ({ navigation }) => {
                 });
 
                 setAllPost(post)
+                setPostLoading(false)
             })
         
             return () => subscriber();
@@ -175,6 +176,7 @@ const Home = ({ navigation }) => {
                 });
 
                 setAllPost(post)
+                setPostLoading(false)
             })
         
         return () => subscriber();
@@ -195,6 +197,7 @@ const Home = ({ navigation }) => {
                 });
 
                 setAllPost(post)
+                setPostLoading(false)
             })
         
         return () => subscriber();
