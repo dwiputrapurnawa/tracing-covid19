@@ -13,20 +13,7 @@ const List = () => {
     const [loading, setLoading] = useState(true); 
     const [users, setUsers] = useState([]); 
 
-    //function buat ubah status waiting ke in
-    const waitingtoIn = (id) =>{
-        var status = firestore().collection("booking").doc(id);
-        return status.update({
-            status:"In"
-        })
-        .then(function() {
-            console.log("Status successfully updated!");
-        })
-        .catch(function(error) {
-            console.error("Error updating document: ", error);
-        });
 
-    }
 
     useEffect(() => {
         const subscriber = firestore()
@@ -48,10 +35,16 @@ const List = () => {
         
         return () => subscriber();
       }, []);
+
+      
+    const searchIcon = (props) => (
+      <Icon {...props} name="search" />
+    )
     
       if (loading) {
         return <ActivityIndicator />;
       }
+
 
     return (
       <ScrollView>
@@ -94,7 +87,7 @@ const List = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-       
+        backgroundColor: '#fff'
     },
     button: {
         marginTop: 20,
