@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text,TouchableOpacity, View, TextInput, Alert, Image } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Alert, ImageBackground } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -95,6 +95,9 @@ const News = () => {
     <ScrollView  >
 
     <View style={styles.container}>
+      <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+      >
       <Text style={{ fontWeight: "bold", fontSize: 55, paddingBottom: 20 }}>News</Text>
 
       <Input
@@ -140,6 +143,7 @@ const News = () => {
       <Button  status='primary' style={{width: '80%', marginTop: 10, borderRadius: 30 }} appearance='outline'  accessoryRight={RightArrow} onPress={postNewsPressed }>
         Upload Berita
       </Button>
+      </ImageBackground>
     </View>
   </ScrollView>
 
@@ -151,9 +155,14 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: '30%'
     },
     
+    image_background: {
+      width: 390,
+      height: 800,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
 });
 
 export default News;
