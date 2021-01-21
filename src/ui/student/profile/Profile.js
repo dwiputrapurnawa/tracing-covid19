@@ -11,10 +11,12 @@ const Profile = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [, updateState] = useState();
     const [user,setUser] = useState({});
+    const [loading, setLoading] = useState(true);
 
     const forceUpdate = useState()[1].bind(null, {})
 
-    var uid = auth().currentUser.uid;
+    const user_auth = auth().currentUser;
+
 
     var fileName;
     var filePath;
@@ -22,10 +24,11 @@ const Profile = () => {
     useEffect(() => {
         const subscriber = firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .onSnapshot(documentSnapshot => {
 
                 setUser(documentSnapshot.data())
+                setLoading(false)
 
                 console.log(user);
             })
@@ -46,7 +49,7 @@ const Profile = () => {
 
         firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 avatar: url
             })
@@ -62,7 +65,7 @@ const Profile = () => {
 
         firestore()
             .collection('student')
-            .doc(uid)
+            .doc(user_auth.email)
             .update({
                 background: url
             })
@@ -152,36 +155,36 @@ const Profile = () => {
             <View style={styles.row_container}>
                 <View>
                     <Text style={styles.header_text}>Nama Lengkap</Text>
-                    <Text>{user.name}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.name}</Text>
                 </View>
 
                 <View style={{left: 40}}>
                     <Text style={styles.header_text}>NIM</Text>
-                    <Text>{user.nim}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.nim}</Text>
                 </View>
             </View> 
 
             <View style={styles.row_container}>
                 <View>
                     <Text style={styles.header_text}>Email</Text>
-                    <Text>{user.email}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.email}</Text>
                 </View>
 
                 <View style={{left: 60}}>
                     <Text style={styles.header_text}>No. Handphone</Text>
-                    <Text>{user.telp}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.telp}</Text>
                 </View>
             </View> 
 
             <View style={styles.row_container}>
                 <View>
                     <Text style={styles.header_text}>Angkatan</Text>
-                    <Text>{user.angkatan}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.angkatan}</Text>
                 </View>
 
                 <View style={{left: 160}}>
                     <Text style={styles.header_text}>Prodi</Text>
-                    <Text>{user.prodi}</Text>
+                    <Text>{loading ? <ActivityIndicator size='large' color='#013765' /> : user.prodi}</Text>
                 </View>
             </View> 
                 

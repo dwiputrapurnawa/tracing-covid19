@@ -8,9 +8,12 @@ import Login from './src/ui/student/login/Login';
 import LoginAdmin from './src/ui/admin/login/Login';
 import ProfileStudent from './src/ui/student/profile/Profile';
 import ProfileAdmin from './src/ui/admin/profile/Profile';
+import News_Student from './src/ui/student/news/News';
+import NewsDetails_Admin from './src/ui/admin/news/NewsDetails'
 import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Layout } from '@ui-kitten/components';
+import { ApplicationProvider, Layout, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 const Stack = createStackNavigator();
 
@@ -26,14 +29,14 @@ function Startup({ navigation }) {
           uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'
         }} />
         <View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Student')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
             <Image style={styles.image_student} source={require('./src/img/student.png')} />
-            <Text style={styles.student_text}>Student</Text>
+            <Text style={styles.role_text}>Student</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tab_Admin')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginAdmin')}>
             <Image style={styles.image_admin} source={require('./src/img/admin.png')} />
-            <Text style={styles.student_text}>Admin</Text>
+            <Text style={styles.role_text}>Admin</Text>
           </TouchableOpacity>
         </View> 
         </ImageBackground>
@@ -47,6 +50,8 @@ function Startup({ navigation }) {
 
 export default function App() {
   return (
+    <>
+    <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light} > 
       <ThemeProvider>
         <NavigationContainer>
@@ -54,14 +59,17 @@ export default function App() {
             <Stack.Screen name="Startup" component={Startup} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Student" component={Tab} options={{headerShown: false}} />
             <Stack.Screen name="Tab_Admin" component={TabAdmin} options={{headerShown: false}} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{title: 'Login Admin'}} />
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+            <Stack.Screen name="LoginAdmin" component={LoginAdmin} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Student" component={ProfileStudent} options={{headerShown: false}} />
             <Stack.Screen name="Profile_Admin" component={ProfileAdmin} options={{headerShown: false}} />
+            <Stack.Screen name="News_Student" component={News_Student} options={{headerShown: false}} />
+            <Stack.Screen name="NewsDetails_Admin" component={NewsDetails_Admin} options={{headerShown: false}} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
     </ApplicationProvider>   
+    </>
   );
 }
 
@@ -72,6 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexWrap: 'wrap'
   },
   image_background: {
     width: 420,
@@ -103,10 +112,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
   },
-  student_text: {
+  role_text: {
     alignSelf: 'center',
     fontWeight: 'bold',
     fontSize: 20,
+    color: '#013765'
   },
   header_text: {
     fontWeight: 'bold',
