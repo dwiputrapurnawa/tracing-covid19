@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { Input, Icon, CheckBox, Layout } from '@ui-kitten/components';
+import { Input, Icon, CheckBox, Layout, Button } from '@ui-kitten/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Overlay } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
 
@@ -12,7 +15,22 @@ const Login = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
+    const [incorrect, setIncorrect] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [resetPass, setResetPass] = useState();
 
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
+
+    const forgetPassword = () => {
+
+        auth()
+            .sendPasswordResetEmail(resetPass)
+            .then(() => {
+                setVisible(false)
+            })
+    }
 
     function onAuthStateChanged(user) {
         setUser(user);
@@ -53,17 +71,16 @@ const Login = ({ navigation }) => {
         firestore()
             .collection('student')
             .where('nim', '==', nim)
-            .where('password', '==', password)
             .get()
-            .then((querySnapshot) => {
+            .then((querySnapshot) => {   
                
+                
                 if(querySnapshot['docs'] == '') {
                     console.log('USER INVALID!')
+                    setIncorrect(true)
                 } else {
                     console.log('USER VALID');
                 }
-
-                
                
                 querySnapshot.forEach(documentSnapshot => {
                     
@@ -73,14 +90,17 @@ const Login = ({ navigation }) => {
                         console.log('User account signed in!');
                     })
                     .catch(error => {
-                    
-                        if (error.code === 'auth/invalid-email') {
-                          console.log('That email address is invalid!');
+                        
+                        if(error.code === 'auth/wrong-password') {
+                            setIncorrect(true)
                         }
                     
-                        console.error(error);
+                        
                       })
                 })
+            })
+            .catch(error => {
+                console.log(error)
             })
         
     }
@@ -97,16 +117,26 @@ const Login = ({ navigation }) => {
                  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} /> 
     
                 <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Sign In</Text>
+                {
+                    incorrect ? (
+                        <View style={{flexDirection: 'row', height: 50, width: 250, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
+                            <Text style={{paddingLeft: 20}}>Incorrect NIM or Password</Text>
+                            <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
+                                <Ionicons name="close" size={20} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
+                }
                 <Input label={
                     <Text style={{fontWeight: 'bold', color: '#013765'}}>NIM</Text>
                 } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="NIM" onChangeText={(value) => setNim(value)} accessoryLeft={nimIcon} />
                 <Input label={
                     <Text style={{fontWeight: 'bold', color: '#013765'}}>Password</Text>
-                } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Password" onChangeText={(value) => setPassword(value)}
+                } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Password"  onChangeText={(value) => setPassword(value)}
                 accessoryRight={passwordIcon} secureTextEntry={secureTextEntry} caption={<Text style={{color: '#013765' }}>Should contain at least 8 symbols</Text>}
                 captionIcon={AlertIcon} accessoryLeft={passwordLockIcon} />
     
-                <TouchableOpacity>
+                <TouchableOpacity onPress={toggleOverlay}>
                 <Text style={{marginLeft: 200,fontWeight: 'bold', color: '#013765', marginTop: 10}}>Forgot your password?</Text>
                 </TouchableOpacity>
     
@@ -129,6 +159,18 @@ const Login = ({ navigation }) => {
                         <Text style={{fontWeight: 'bold', color: '#1dc9d3'}}>Login Here</Text>
                     </TouchableOpacity>
                 </View>
+
+                <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                   <View style={{alignItems: 'center', width: 300}}>
+                   <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>Reset Your Password</Text>
+                    <Text style={{marginBottom: 10}}>
+                        Enter your email address and we'll send you a link to reset your password.
+                    </Text>
+                    <Input placeholder="Email" style={{marginBottom: 10}} onChangeText={(value) => setResetPass(value)} />
+                    <Button status="success" style={{width: 300}} onPress={forgetPassword} >Reset Password</Button>
+                   </View>
+                   
+                </Overlay>
                 </ImageBackground>
             </View>
         );

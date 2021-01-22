@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Input, CheckBox, Icon, Layout } from '@ui-kitten/components';
+import { Input, CheckBox, Icon, Layout, Button } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import { Overlay } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
 
@@ -12,7 +13,22 @@ const Login = ({ navigation }) => {
     const [checked, setChecked] = useState(false);
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
+    const [incorrect, setIncorrect] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [resetPass, setResetPass] = useState();
 
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
+
+    const forgetPassword = () => {
+
+        auth()
+            .sendPasswordResetEmail(resetPass)
+            .then(() => {
+                setVisible(false)
+            })
+    }
 
     function onAuthStateChanged(user) {
         setUser(user);
@@ -53,13 +69,13 @@ const Login = ({ navigation }) => {
         firestore()
             .collection('admin')
             .where('username','==',username)
-            .where('password','==',password)
             .get()
             .then((querySnapshot) => {
                 
 
                 if(querySnapshot['docs'] == '') {
                     console.log('USER INVALID!')
+                    setIncorrect(true)
                 } else {
                     console.log('USER VALID');
                 }
@@ -95,6 +111,16 @@ const Login = ({ navigation }) => {
                      source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} /> 
         
                     <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Sign In</Text>
+                    {
+                    incorrect ? (
+                        <View style={{flexDirection: 'row', height: 50, width: 250, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
+                            <Text style={{paddingLeft: 20}}>Incorrect NIM or Password</Text>
+                            <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
+                                <Ionicons name="close" size={20} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
+                }
                     <Input label={
                         <Text style={{fontWeight: 'bold', color: '#013765'}}>Username</Text>
                     } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Username" onChangeText={(value) => setUsername(value)} accessoryLeft={usernameIcon} />
@@ -104,7 +130,7 @@ const Login = ({ navigation }) => {
                     accessoryRight={passwordIcon} secureTextEntry={secureTextEntry} caption={<Text style={{color: '#013765' }}>Should contain at least 8 symbols</Text>}
                     captionIcon={AlertIcon} accessoryLeft={passwordLockIcon} />
         
-                    <TouchableOpacity>
+                    <TouchableOpacity style={toggleOverlay}>
                     <Text style={{marginLeft: 200,fontWeight: 'bold', color: '#013765', marginTop: 10}}>Forgot your password?</Text>
                     </TouchableOpacity>
         
@@ -127,6 +153,18 @@ const Login = ({ navigation }) => {
                             <Text style={{fontWeight: 'bold', color: '#1dc9d3'}}>Login Here</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                   <View style={{alignItems: 'center', width: 300}}>
+                   <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>Reset Your Password</Text>
+                    <Text style={{marginBottom: 10}}>
+                        Enter your email address and we'll send you a link to reset your password.
+                    </Text>
+                    <Input placeholder="Email" style={{marginBottom: 10}} onChangeText={(value) => setResetPass(value)} />
+                    <Button status="success" style={{width: 300}} onPress={forgetPassword} >Reset Password</Button>
+                   </View>
+                   
+                </Overlay>
                     </ImageBackground>
             </View>
         );

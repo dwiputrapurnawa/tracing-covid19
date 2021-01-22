@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
 const NewsDetails = ({route,navigation}) => {
 
@@ -17,8 +17,9 @@ const NewsDetails = ({route,navigation}) => {
             borderTopWidth: 0.3, borderLeftWidth: 0.3
         }}>
                 <Text style={{fontSize: 20, marginLeft: 10 ,marginTop: 20, fontWeight: 'bold', color: '#013765'}}>{item.title}</Text>
+                <Text style={{color: '#013765', alignSelf: 'flex-start', margin: 10}}>{item.author}</Text>
                 <Text style={{fontSize: 18, textAlign: 'justify', margin: 10, color: '#013765'}}>{item.body}</Text>
-                <Text style={{right: 100, color: '#013765'}}>{item.author}</Text>
+                
             </View>
         </View>
     );

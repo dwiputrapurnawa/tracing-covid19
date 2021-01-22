@@ -1,20 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text,TouchableOpacity, View, TextInput, Alert, Image } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Alert, ImageBackground, Image } from 'react-native';
 import storage, { firebase } from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchImageLibrary} from 'react-native-image-picker';
 import auth from '@react-native-firebase/auth';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Input, Button, Icon, } from '@ui-kitten/components';
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 
+const useInputState = (initialValue = '') => {
+  const [value, setValue] = React.useState(initialValue);
+  return { value, onChangeText: setValue };
+};
+
+
+const RightArrow = (props) => (
+  <Icon {...props} name='arrow-right'/>
+);
 const News = () => {
 
+  const multilineInputState = useInputState();
+  const mediumInputState = useInputState();
 
     const db = firestore();
 
-    const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [image, setImage] = useState(null);
+    const [imageLoading, setImageLoading] = useState(false)
 
     const user = auth().currentUser;
      
@@ -53,6 +66,7 @@ const News = () => {
             mediaType: 'photo',
             quality: 1
         }
+        setImageLoading(true)
 
         launchImageLibrary(options, (response) => {
             console.log('Response: ', response)
@@ -60,6 +74,8 @@ const News = () => {
             if(response.didCancel) {
                 console.log('User Cancelled image picker')
             } else {
+
+              setImageLoading(true)
                 fileName = response.fileName;
                 filePath = response.uri;
 
@@ -71,8 +87,14 @@ const News = () => {
                         ImageUrl(fileName);
                         forceUpdate;
                     })
+                
+                
             }
+
+            setImageLoading(false)
         })
+
+        
     }
 
     return (
@@ -80,27 +102,59 @@ const News = () => {
     <ScrollView  >
 
     <View style={styles.container}>
-      <Text style={{ fontWeight: "bold", fontSize: 30, paddingBottom: 20 }}>News</Text>
+      <ImageBackground style={styles.image_background} source={{
+          uri:'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}}
+      >
+        <Image style={{width: 300, height: 200, marginRight: 150}}
+                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} />
+      <Text style={{ fontWeight: "bold", fontSize: 55, paddingBottom: 20, color: '#013765' }}>News</Text>
 
-      <Text style={{ marginTop: 17, marginBottom: 5, fontWeight: "bold" }}>Title</Text>
-      <TextInput style={styles.textUser}
+        <TouchableOpacity onPress={chooseImage} >
+          
+
+          {
+            image ? <ImageBackground style={{height: 200, width: 350,}} source={{uri: image}}  /> : (<View style={{width: 350, height: 200, borderWidth: 2, marginBottom: 10, borderStyle: 'dashed', borderRadius: 10, borderColor: '#013765'}}>
+            <Image style={{width: 50, height: 50, alignSelf: 'center', marginTop: 50, }}  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/cloud-computing.png?alt=media&token=3fcf5455-d5a9-4efc-8826-4a593066695d'}} />
+            <Text style={{fontWeight: 'bold', fontSize: 25, alignSelf: 'center', marginTop: 20,color: '#013765'}}>Upload Image</Text>
+            </View>)
+          }
+          
+          
+        </TouchableOpacity>
+        
+        {
+          imageLoading && (<ProgressBar style={{width: 300}} styleAttr="Horizontal" />)
+        }
+        
+
+      <Input
+        style={styles.input}
+        size='medium'
+        status='primary'
+        style={{width: '80%', borderColor: '#35a7f2', marginTop: 10 }}
+        placeholder='Judul Berita'
+        {...mediumInputState}
         value={title}
         onChangeText={(text) => setTitle(text)}
       />
 
-      <Text style={{ marginBottom: 5, marginTop: 17, fontWeight: "bold" }}>Body</Text>
-      <TextInput style={styles.textUser}
+
+      <Input
+        multiline={true}
+        status='primary'
+        textStyle={{ minHeight: 150, textAlignVertical: 'top', maxHeight: 150 }}
+        placeholder='Konten Berita'
+        style={{width: '80%', borderColor: '#35a7f2', marginTop: 10 }}
+        {...multilineInputState}
         value={body}
         onChangeText={(text) => setBody(text)}
       />
 
-      <TouchableOpacity style={styles.button} onPress={chooseImage}>
-        <Text style={{ color: "white" }}>Choose Image</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={postNewsPressed}>
-        <Text style={{ color: "white" }}>Post</Text>
-      </TouchableOpacity>
+      <Button  status='primary' style={{width: '80%', marginTop: 10, borderRadius: 30, marginBottom: 20 }} appearance='outline'  accessoryRight={RightArrow} onPress={postNewsPressed }>
+        Upload Berita
+      </Button>
+      </ImageBackground>
     </View>
   </ScrollView>
 
@@ -111,30 +165,13 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center'
-    },button: {
-      marginTop: 10
-    }, textUser: {
-      marginTop: 5,
-      borderColor: "#777",
-      borderWidth: 1,
-      borderRadius: 10,
-      width: 286,
-      padding: 8
-    }, textPass: {
-      marginTop: 5,
-      borderColor: "#777",
-      borderWidth: 1,
-      width: 286,
-      borderRadius: 10,
-      padding: 8
-    }, button: {
-      marginTop: 20,
-      marginBottom: 20,
-      alignItems: "center",
-      backgroundColor: "#2d3030",
-      borderRadius: 10,
-      padding: 10,
+      justifyContent: 'center',
+    },
+    
+    image_background: {
+      width: 420,
+      justifyContent: 'center',
+      alignItems: 'center',
     }
 });
 
