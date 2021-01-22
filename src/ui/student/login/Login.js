@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ImageBackground, TouchableWithoutFeedback, Touc
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Input, Icon, CheckBox, Layout, Button } from '@ui-kitten/components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Overlay } from 'react-native-elements';
 
