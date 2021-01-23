@@ -14,6 +14,8 @@ import { ThemeProvider } from 'react-native-elements';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 const Stack = createStackNavigator();
 
@@ -83,8 +85,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   image_background: {
-    width: 420,
-    height: 800,
+    width: wp('100%'),
+    height: hp('100%'),
     justifyContent: 'center',
     alignItems: 'center',
   }
@@ -94,21 +96,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderTopWidth: 0.2,
     borderLeftWidth: 0.2,
-    width: 230,
-    height : 220,
+    width: wp('50%'),
+    height : hp('30%'),
     borderRadius: 40,
     marginVertical: 20,
     borderColor: '#D2D2D2'
   },
   image_student: {
-    width: 150,
-    height: 160,
+    width:  wp('33%'),
+    height: hp('21%'),
     alignSelf: 'center',
     marginTop: 15,
   },
   image_admin: {
-    width: 160,
-    height: 160,
+    width:  wp('35%'),
+    height: hp('21%'),
     alignSelf: 'center',
     marginTop: 15,
   },
@@ -124,9 +126,9 @@ const styles = StyleSheet.create({
     marginBottom: 50
   },
   logo: {
-    width: 300,
-    height: 100,
-    bottom: 50,
-    right: 80,
+    width:  wp('70%'),
+    height: hp('10%'),
+    right: '20%',
+    bottom: '4%'
   }
 });

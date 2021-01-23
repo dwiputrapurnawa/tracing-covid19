@@ -1,10 +1,12 @@
 import React, { useEffect, useState, } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { Input, } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Booking = ({ navigation }) => {
 
@@ -110,13 +112,14 @@ const Booking = ({ navigation }) => {
     }
 
     return (
+        <ScrollView>
         <View style={styles.container}>
             <ImageBackground 
-                style={{width: 420, alignItems: 'center'}}
-                imageStyle={{width: 420, height: 800}}
+                style={{width: wp('100%'), alignItems: 'center'}}
+                imageStyle={{width: wp('100%'), height: hp('100%')}}
                 source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}} >
                 
-                <Image style={{width: 300, height: 200}}
+                <Image style={{width: wp('80%'), height: hp('30%')}}
                  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} /> 
     
                 <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Booking</Text>
@@ -180,6 +183,7 @@ const Booking = ({ navigation }) => {
                     
                 </ImageBackground>
         </View>
+        </ScrollView>
     );
 }
 

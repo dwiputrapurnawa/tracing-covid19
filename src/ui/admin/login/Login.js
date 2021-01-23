@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Overlay } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { set } from 'react-native-reanimated';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const Login = ({ navigation }) => {
 
@@ -114,17 +114,17 @@ const Login = ({ navigation }) => {
         return (
             <View style={styles.container}>
                 <ImageBackground 
-                    style={{width: 420, alignItems: 'center'}}
-                    imageStyle={{width: 420, height: 800}}
+                    style={{width: wp('100%'), alignItems: 'center'}}
+                    imageStyle={{width: wp('100%'), height: hp('100%')}}
                     source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/bg1.jpg?alt=media&token=3728e649-3efb-4232-bd17-029d729a2da0'}} >
                     
-                    <Image style={{width: 300, height: 200}}
+                    <Image style={{width: wp('80%'), height: hp('20%')}}
                      source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} /> 
         
-                    <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Sign In</Text>
+                    <Text style={{fontSize: hp('5%'), fontWeight: 'bold', color: '#013765'}}>Sign In</Text>
                     {
                     incorrect ? (
-                        <View style={{flexDirection: 'row', height: 50, width: 250, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
+                        <View style={{flexDirection: 'row', height: hp('10%'), width: wp('65%'), borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
                             <Text style={{paddingLeft: 20}}>Incorrect Username or Password</Text>
                             <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
                                 <Ionicons name="close" size={20} />
