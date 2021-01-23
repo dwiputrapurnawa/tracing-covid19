@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Input, Button, Icon, } from '@ui-kitten/components';
 import { ProgressBar } from '@react-native-community/progress-bar-android';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const useInputState = (initialValue = '') => {
   const [value, setValue] = React.useState(initialValue);
@@ -27,16 +28,22 @@ const News = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [image, setImage] = useState(null);
-    const [imageLoading, setImageLoading] = useState(false)
+    const [imageLoading, setImageLoading] = useState(false);
+    const [incorrect, setIncorrect] = useState(false);
 
     const user = auth().currentUser;
      
     const forceUpdate = useState()[1].bind(null, {})
-      var fileName;
-      var filePath;
-      const postNewsPressed = () => {
+    var fileName;
+    var filePath;
+
+    const postNewsPressed = () => {
+
+      if((title == null || body == null || image == null) || (title == '' || body == '' || image == '')) {
+        setIncorrect(true)
+      } else {
         
-            firebase.firestore().collection('berita')
+            firestore().collection('berita')
               .add({
                 author: user.email,
                 title: title,
@@ -51,17 +58,18 @@ const News = () => {
           }).catch((err) => {
             alert(err);
           })
+        }
       }
       
 
-      const ImageUrl = async (filename) => {
+    const ImageUrl = async (filename) => {
         const url = await storage().ref('berita/' + filename).getDownloadURL();
         setImage(url);
 
     }
 
 
-      function chooseImage() {
+    function chooseImage() {
         const options = {
             mediaType: 'photo',
             quality: 1
@@ -108,6 +116,17 @@ const News = () => {
         <Image style={{width: 300, height: 200, marginRight: 150}}
                  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} />
       <Text style={{ fontWeight: "bold", fontSize: 55, paddingBottom: 20, color: '#013765' }}>News</Text>
+
+      {
+                    incorrect ? (
+                        <View style={{flexDirection: 'row', height: 50, width: 200, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
+                            <Text style={{paddingLeft: 20}}>Data is Empty</Text>
+                            <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
+                                <Ionicons name="close" size={20} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
+                }
 
         <TouchableOpacity onPress={chooseImage} >
           
