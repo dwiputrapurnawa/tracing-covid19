@@ -18,7 +18,26 @@ const Home = ({ navigation }) => {
     const [, updateState] = useState();
     const [visible, setVisible] = useState(false);
     const [userData, setUserData] = useState({});
+
     
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('booking')
+            .where('student_id','==',user.email)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.forEach(documentSnapshot => {
+                    if(documentSnapshot.data()['date'] < new Date().toDateString()){
+                        firestore()
+                            .collection('booking')
+                            .doc(documentSnapshot.id)
+                            .update({
+                                status: 'Out'
+                            }).then(() => console.log('Expired Booking'))
+                    }
+                })
+            })
+        return () => subscriber();
+    },[])
 
     const user = !auth().currentUser ? '' : auth().currentUser;
 

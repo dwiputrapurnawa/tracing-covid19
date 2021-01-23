@@ -4,6 +4,8 @@ import { Input, CheckBox, Icon, Layout, Button } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { Overlay } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { set } from 'react-native-reanimated';
 
 const Login = ({ navigation }) => {
 
@@ -66,6 +68,12 @@ const Login = ({ navigation }) => {
 
 
     const Signin = () => {
+
+        if((username == null || password == null) || (username == '' || password == '')) {
+            setIncorrect(false)
+            setIncorrect(true)
+        } else {
+
         firestore()
             .collection('admin')
             .where('username','==',username)
@@ -75,6 +83,7 @@ const Login = ({ navigation }) => {
 
                 if(querySnapshot['docs'] == '') {
                     console.log('USER INVALID!')
+                    setIncorrect(false)
                     setIncorrect(true)
                 } else {
                     console.log('USER VALID');
@@ -89,14 +98,16 @@ const Login = ({ navigation }) => {
                     })
                     .catch(error => {
                     
-                        if (error.code === 'auth/invalid-email') {
-                          console.log('That email address is invalid!');
+                        if (error.code === 'auth/wrong-password') {
+                          setIncorrect(false)
+                          setIncorrect(true)
                         }
                     
                         console.error(error);
                       });
                 })
-            }) 
+            })
+        }
     }
 
     if(!user) {
@@ -114,7 +125,7 @@ const Login = ({ navigation }) => {
                     {
                     incorrect ? (
                         <View style={{flexDirection: 'row', height: 50, width: 250, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
-                            <Text style={{paddingLeft: 20}}>Incorrect NIM or Password</Text>
+                            <Text style={{paddingLeft: 20}}>Incorrect Username or Password</Text>
                             <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
                                 <Ionicons name="close" size={20} />
                             </TouchableOpacity>

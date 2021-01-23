@@ -8,8 +8,8 @@ import { Overlay } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
 
-    const [nim, setNim] = useState('');
-    const [password, setPassword] = useState('');
+    const [nim, setNim] = useState();
+    const [password, setPassword] = useState();
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [checked, setChecked] = useState(false);
     const [initializing, setInitializing] = useState(true);
@@ -67,6 +67,12 @@ const Login = ({ navigation }) => {
 
 
     const Signin = () => {
+
+        if((nim == null || password == null) || (nim == '' || password == '')) {
+            setIncorrect(false)
+            setIncorrect(true)
+        } else {
+
         firestore()
             .collection('student')
             .where('nim', '==', nim)
@@ -76,6 +82,7 @@ const Login = ({ navigation }) => {
                 
                 if(querySnapshot['docs'] == '') {
                     console.log('USER INVALID!')
+                    setIncorrect(false)
                     setIncorrect(true)
                 } else {
                     console.log('USER VALID');
@@ -91,6 +98,7 @@ const Login = ({ navigation }) => {
                     .catch(error => {
                         
                         if(error.code === 'auth/wrong-password') {
+                            setIncorrect(false)
                             setIncorrect(true)
                         }
                     
@@ -101,6 +109,8 @@ const Login = ({ navigation }) => {
             .catch(error => {
                 console.log(error)
             })
+
+        }
         
     }
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, } from 'react';
-import { StyleSheet, Text, View, Button, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
-import { Input } from '@ui-kitten/components';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
+import { Input, } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import auth from '@react-native-firebase/auth';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Booking = ({ navigation }) => {
 
@@ -13,6 +14,8 @@ const Booking = ({ navigation }) => {
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [kouta, setKouta] = useState(0);
+    const [incorrect, setIncorrect] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const user = auth().currentUser
 
@@ -62,20 +65,48 @@ const Booking = ({ navigation }) => {
 
 
     const uploadBooking = () => {
-        firestore()
-            .collection('booking')
-            .add({
-                bertemu: bertemu,
-                date: date.toDateString(),
-                time: date.toTimeString(),
-                kepentingan: kepentingan,
-                status: "Waiting",
-                student_id: user.email
-            })
-            .then(() => {
-                console.log('Booking Successfull');
-                createSuccessfullBooking();
-            })
+
+        if(kepentingan == null && bertemu == null) {
+            setIncorrect(true)
+            setErrorMsg('Your Data is Empty')
+        } else {
+            if(date <= new Date()) {
+                setIncorrect(true)
+                setErrorMsg('Incorrect Date')
+            } else {
+
+                firestore()
+                .collection('booking')
+                .where('date', '==', date.toDateString())
+                .get()
+                .then(documentSnapshot => {
+                    if(documentSnapshot != null) {
+                        setIncorrect(true)
+                        setErrorMsg('You already Booking')
+                    } else {
+                        firestore()
+                        .collection('booking')
+                        .add({
+                            bertemu: bertemu,
+                            date: date.toDateString(),
+                            time: date.toTimeString(),
+                            kepentingan: kepentingan,
+                            status: "Waiting",
+                            student_id: user.email
+                        })
+                        .then(() => {
+                            console.log('Booking Successfull');
+                            createSuccessfullBooking();
+                        })
+                    }
+                })
+                
+                
+                
+            }
+        }
+
+        
     }
 
     return (
@@ -89,6 +120,18 @@ const Booking = ({ navigation }) => {
                  source={{uri: 'https://firebasestorage.googleapis.com/v0/b/tracing-covid19.appspot.com/o/STMIK%20Primakara%20-%20Primary%20Horizontal%20Logo.png?alt=media&token=d1d931bf-bd45-4322-9eec-04961ae18b84'}} /> 
     
                 <Text style={{fontSize: 40, fontWeight: 'bold', color: '#013765'}}>Booking</Text>
+
+                {
+                    incorrect ? (
+                        <View style={{flexDirection: 'row', height: 50, width: 200, borderRadius: 10, margin: 20, alignItems: 'center', backgroundColor: '#FEDCE0'}}>
+                            <Text style={{paddingLeft: 20}}>{errorMsg}</Text>
+                            <TouchableOpacity style={{paddingLeft: 30}} onPress={() => setIncorrect(false)}>
+                                <Ionicons name="close" size={20} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
+                }
+
                 <Input label={
                     <Text style={{fontWeight: 'bold', color: '#013765'}}>Kepentingan</Text>
                 } style={{width: 350, borderColor: "#D2D2D2"}} placeholder="Kepentingan datang ke kampus" onChangeText={(value) => setKepentingan(value)}  />
