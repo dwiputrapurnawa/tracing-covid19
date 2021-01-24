@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
 
 const NewsDetails = ({route,navigation}) => {
 
     const {item} = route.params
 
     return (
+        <ScrollView>
         <View style={styles.container}>
 
             
@@ -22,6 +23,7 @@ const NewsDetails = ({route,navigation}) => {
                 
             </View>
         </View>
+        </ScrollView>
     );
 }
 

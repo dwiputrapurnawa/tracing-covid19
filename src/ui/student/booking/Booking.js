@@ -161,7 +161,7 @@ const Booking = ({ navigation }) => {
                     <Text style={{fontWeight: 'bold', color: '#013765', margin: 10}}>Kouta : {20-kouta}</Text>
                 </View>
     
-                <TouchableOpacity onPress={uploadBooking} style={{borderWidth: 2, width: 350, height: 60, marginTop: 10, borderRadius: 30,
+                <TouchableOpacity onPress={uploadBooking} style={{borderWidth: 2, width: 350, height: 60, marginTop: 10, borderRadius: 30,marginBottom: 40,
                      backgroundColor: '#ffffff', alignItems: 'center', borderColor: "#D2D2D2" }}>
                     <Text style={{fontSize: 30, fontWeight: 'bold', color: '#013765', marginTop: 5 }}>Submit</Text>
                 </TouchableOpacity>
