@@ -176,6 +176,8 @@ android {
         }
     }
 
+    ndkVersion "21.3.6528147"
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
